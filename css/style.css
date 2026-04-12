@@ -86,7 +86,13 @@ a:hover { color: #66ffbb; text-shadow: 0 0 10px var(--accent-glow); }
 
 code, pre { font-family: var(--font-mono); font-size: 0.9rem; }
 
-.logo-0x { color: var(--cyan); font-family: var(--font-mono); }
+.logo-0x { color: var(--cyan); }
+
+@keyframes logoGlitch {
+  0%, 85%, 88%, 100% { text-shadow: 0 0 12px var(--green); transform: none; }
+  86% { text-shadow: -2px 0 var(--red), 2px 0 var(--green), 0 0 12px var(--green); transform: translate(-1px, 0) skewX(-2deg); }
+  87% { text-shadow: 2px 0 var(--red), -2px 0 var(--cyan), 0 0 12px var(--green); transform: translate(1px, 0) skewX(1deg); }
+}
 
 /* -- Navigation -- */
 .nav {
@@ -169,10 +175,11 @@ code, pre { font-family: var(--font-mono); font-size: 0.9rem; }
 }
 
 .nav-brand h1 {
-  font-family: 'Share Tech Mono', monospace; font-size: 1.3rem; font-weight: 400;
-  background: linear-gradient(135deg, var(--cyan), var(--accent));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  letter-spacing: 0.05em;
+  font-family: var(--font-display); font-size: 1.2rem; font-weight: 900;
+  color: var(--green);
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 14px var(--green);
+  animation: logoGlitch 8s ease-in-out infinite;
 }
 
 .nav-brand .version {
@@ -294,7 +301,7 @@ section { padding: 6rem 0; }
 }
 
 .hero h1 { margin-bottom: 1.5rem; }
-.hero h1 .gradient { font-family: 'Share Tech Mono', monospace; font-weight: 400; letter-spacing: 0.05em; background: linear-gradient(135deg, #00d4ff, #00ff88, #66ffbb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero h1 .gradient { font-family: var(--font-display); font-weight: 900; letter-spacing: 0.1em; color: var(--green); text-shadow: 0 0 14px var(--green); animation: logoGlitch 8s ease-in-out infinite; }
 
 .hero-desc { font-size: 1.25rem; color: var(--text-secondary); max-width: 650px; margin: 0 auto 2.5rem; line-height: 1.8; }
 .hero-actions { display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem; }
