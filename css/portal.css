@@ -547,6 +547,134 @@ body.portal-body.auth-ready { opacity: 1; }
 
 .portal-license-card.hidden { display: none; }
 
+/* -- Payment Tabs -- */
+.purchase-method-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.pay-tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+.pay-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 0.5rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pay-tab:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+.pay-tab.active {
+  border-color: var(--accent);
+  background: rgba(245,158,11,0.08);
+  color: var(--accent);
+}
+.pay-tab svg { flex-shrink: 0; }
+
+.pay-panel { display: none; }
+.pay-panel.active { display: block; }
+
+.pay-desc {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.pay-secure {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+  opacity: 0.7;
+}
+
+/* Crypto payment */
+.crypto-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.crypto-option {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+.crypto-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+.crypto-addr-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.crypto-addr {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  word-break: break-all;
+  flex: 1;
+}
+
+.crypto-txid-row {
+  margin-bottom: 1rem;
+}
+.crypto-txid-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+/* Spinner */
+.purchase-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.portal-plan--dimmed { opacity: 0.5; }
+
+.paypal-fallback-btn { background: #0070ba; }
+.paypal-fallback-btn:hover { background: #005ea6; }
+
 /* -- Responsive -- */
 @media (max-width: 768px) {
   .portal-layout { grid-template-columns: 1fr; }
