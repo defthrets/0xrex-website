@@ -5,9 +5,27 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
   onAuthStateChanged
 } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
+
+// Handle Google redirect result (fires on page load after redirect sign-in)
+getRedirectResult(auth)
+  .then((result) => {
+    if (result && result.user) {
+      localStorage.setItem('0xrex_logged_in', 'true');
+      window.location.href = 'portal.html';
+    }
+  })
+  .catch((err) => {
+    var msgEl = document.getElementById('authMessage');
+    if (msgEl && err.code !== 'auth/popup-closed-by-user') {
+      msgEl.textContent = err.message || 'Google sign-in failed.';
+      msgEl.className = 'auth-message error';
+    }
+  });
 
 // If already logged in, redirect to portal
 onAuthStateChanged(auth, (user) => {
@@ -107,14 +125,22 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch((err) => showMsg(mapError(err.code), 'error'));
   });
 
-  // Google sign-in
+  // Google sign-in — try popup first, fall back to redirect if blocked
   document.getElementById('googleSignIn').addEventListener('click', () => {
     var provider = new GoogleAuthProvider();
+    showMsg('Signing in with Google...', '');
     signInWithPopup(auth, provider)
       .then(() => {
         localStorage.setItem('0xrex_logged_in', 'true');
         window.location.href = 'portal.html';
       })
-      .catch((err) => showMsg(mapError(err.code), 'error'));
+      .catch((err) => {
+        if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+          showMsg('Redirecting to Google sign-in...', '');
+          signInWithRedirect(auth, provider);
+        } else {
+          showMsg(mapError(err.code), 'error');
+        }
+      });
   });
 });
