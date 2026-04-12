@@ -27,6 +27,21 @@ document.addEventListener('DOMContentLoaded', () => {
       observer.observe(el);
     });
   }
+
+  // Generate 3D coin edge segments (cylinder wall)
+  function buildCoinEdge(id, segments, radius) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    for (let i = 0; i < segments; i++) {
+      const angle = (i * 360) / segments;
+      const seg = document.createElement('div');
+      seg.className = 'coin3d-edge-seg';
+      seg.style.transform = 'rotateZ(' + angle + 'deg) translateY(-' + radius + 'px) rotateX(90deg)';
+      el.appendChild(seg);
+    }
+  }
+  buildCoinEdge('coinEdge', 60, 60);
+  buildCoinEdge('coinEdgeNav', 36, 14);
 });
 
 // -- Hero Tag Typing + Glitch Swap Animation --
