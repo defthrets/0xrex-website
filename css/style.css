@@ -920,8 +920,13 @@ a.broker-item { text-decoration: none; color: inherit; }
 }
 
 /* -- Rex Mascot -- */
-.rex-mascot { display: block; max-width: 220px; height: auto; filter: drop-shadow(0 0 20px rgba(245,158,11,0.3)); transition: transform 0.3s ease; }
-.rex-mascot:hover { transform: scale(1.05) rotate(-2deg); }
+.rex-mascot { display: block; max-width: 220px; height: auto; filter: drop-shadow(0 0 20px rgba(245,158,11,0.3)); animation: rexFloat 4s ease-in-out infinite; }
+.rex-mascot:hover { animation-play-state: paused; transform: scale(1.05) rotate(-2deg); }
+.rex-mascot-big { max-width: 280px !important; }
+@keyframes rexFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
 .rex-section { max-width: 200px; margin: 0 auto; }
 .rex-cta { max-width: 220px; }
 @keyframes rexFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
