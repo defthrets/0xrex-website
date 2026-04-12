@@ -26,6 +26,16 @@
   });
 })();
 
+// Nav portal link auth state
+(function() {
+  var link = document.getElementById('navPortalLink');
+  if (link) {
+    var loggedIn = localStorage.getItem('0xrex_logged_in') === 'true';
+    link.textContent = loggedIn ? 'Portal' : 'Login';
+    link.href = loggedIn ? 'portal.html' : 'login.html';
+  }
+})();
+
 // Mobile nav toggle
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.getElementById('navToggle');
