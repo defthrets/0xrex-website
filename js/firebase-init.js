@@ -4,12 +4,12 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.1/firebas
 import { getAuth } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBNeE4bFm1POKhKNKP0a8z6xdq_HEjw9E0",
+  authDomain: "xrex-50edf.firebaseapp.com",
+  projectId: "xrex-50edf",
+  storageBucket: "xrex-50edf.firebasestorage.app",
+  messagingSenderId: "702755174692",
+  appId: "1:702755174692:web:4be28ae095b3b3b8dc1bb1"
 };
 
 const app = initializeApp(firebaseConfig);
