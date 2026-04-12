@@ -852,7 +852,14 @@ section { padding: 6rem 0; }
 .coin3d-scene--sm .coin3d-edge-seg { width: 3px; height: 4px; left: calc(50% - 1.5px); top: calc(50% - 2px); }
 
 /* Hero coin wrapper */
-.hero-coin-glitch { display: inline-block; }
+.hero-coin-glitch {
+  display: inline-block;
+  animation: coinFloat 4s ease-in-out infinite;
+}
+@keyframes coinFloat {
+  0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.25)); }
+  50% { transform: translateY(-10px); filter: drop-shadow(0 0 22px rgba(245, 158, 11, 0.45)); }
+}
 
 /* Hero cash glitch animation */
 .hero-cash-glitch { animation: cashGlitchMove 3s ease-in-out infinite, sceneFlicker 3s ease infinite; display: inline-block; }
