@@ -13,11 +13,7 @@
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-brand">
-      <div class="logo-hex-icon">
-        <div class="hex-outer">
-          <div class="hex-inner">0x</div>
-        </div>
-      </div>
+      <span class="cash3d" title="0xrex"><div class="cash3d-scene"><div class="cash3d-rotator"><div class="cash3d-face cash3d-front"><div class="bill-face"><div class="bill-border"></div><div class="bill-oval"></div><span class="bill-dollar">$</span><span class="bill-100">0x</span></div></div><div class="cash3d-face cash3d-back"><div class="bill-face"><div class="bill-border"></div><div class="bill-oval"></div><span class="bill-dollar">$</span><span class="bill-100">0x</span></div></div><div class="cash3d-face cash3d-right"><div class="stack-edge"></div></div><div class="cash3d-face cash3d-left"><div class="stack-edge"></div></div><div class="cash3d-face cash3d-top"><div class="stack-edge-h"></div></div><div class="cash3d-face cash3d-bottom"><div class="stack-edge-h"></div></div><div class="band-face band-front"></div><div class="band-face band-back"></div><div class="band-face band-top"></div><div class="band-face band-bottom"></div></div></div></span>
       <h1><span class="logo-0x">0x</span>rex</h1>
       <span class="version">v2.0</span>
     </div>
@@ -38,11 +34,8 @@
     </div>
     <div class="container">
       <div class="hero-content">
-        <div class="hero-logo-block animate-in">
-          <div class="hero-hex-logo">
-            <div class="hex-glow-ring"></div>
-            <span class="hero-hex-text">0x</span>
-          </div>
+        <div style="margin:0 0 6rem;display:flex;justify-content:center;" class="animate-in">
+          <div class="hero-cash-glitch"><span class="cash3d cash3d-hero" title="0xrex"><div class="cash3d-scene"><div class="cash3d-rotator"><div class="cash3d-face cash3d-front"><div class="bill-face"><div class="bill-border"></div><div class="bill-oval"></div><span class="bill-dollar">$</span><span class="bill-100">0x</span></div></div><div class="cash3d-face cash3d-back"><div class="bill-face"><div class="bill-border"></div><div class="bill-oval"></div><span class="bill-dollar">$</span><span class="bill-100">0x</span></div></div><div class="cash3d-face cash3d-right"><div class="stack-edge"></div></div><div class="cash3d-face cash3d-left"><div class="stack-edge"></div></div><div class="cash3d-face cash3d-top"><div class="stack-edge-h"></div></div><div class="cash3d-face cash3d-bottom"><div class="stack-edge-h"></div></div><div class="band-face band-front"></div><div class="band-face band-back"></div><div class="band-face band-top"></div><div class="band-face band-bottom"></div></div></div></span></div>
         </div>
         <div class="hero-tag animate-in">
           <span class="pulse"></span>
@@ -96,6 +89,18 @@
             <div class="label">Autonomous Ops</div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet Rex -->
+  <section style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:3rem 0;">
+    <div class="container" style="display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;">
+      <img src="assets/rex/rex-welcome.png" alt="Rex the trading gecko" class="rex-mascot" style="max-width:160px;">
+      <div style="max-width:500px;">
+        <span class="section-label">// Your Trading Assistant</span>
+        <h2 style="margin:0.5rem 0;">Meet Rex</h2>
+        <p>Rex is your blue-tongue lizard trading assistant. He monitors your positions, celebrates your wins, and keeps you company while the agent scans markets 24/7. Built into every module.</p>
       </div>
     </div>
   </section>
@@ -172,6 +177,7 @@
           <h2>7 Integrated Trading Modules</h2>
           <p>Each module operates autonomously while sharing intelligence across the agent framework.</p>
         </div>
+        <img src="assets/rex/rex-thinking.png" alt="Rex thinking about trades" class="rex-mascot rex-section animate-in">
       </div>
       <div class="features-grid">
         <div class="card animate-in">
@@ -419,6 +425,7 @@
   <section id="download">
     <div class="container">
       <div class="section-header">
+        <img src="assets/rex/rex-broke.png" alt="Rex needs 0xrex" class="rex-mascot" style="max-width:140px;margin:0 auto 1rem;">
         <span class="section-label">// Download</span>
         <h2>Get 0xrex</h2>
         <p style="font-size:1.1rem;">Self-contained Windows executable. No Python installation required. Extract, configure, and run.</p>
@@ -441,13 +448,16 @@
   <!-- CTA -->
   <section class="cta-section">
     <div class="container" style="position:relative;z-index:1;">
-      <div class="cta-text" style="text-align:center;">
-        <span class="section-label">// Ready to Deploy</span>
-        <h2>Let 0xrex Trade For You</h2>
-        <p>100+ crypto assets. 9 exchanges. CryptoCred TA + GCR contrarian intelligence. Fully autonomous, 24/7.</p>
-        <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem;flex-wrap:wrap;">
-          <a href="#download" class="btn btn-primary">&#11015; Download Now</a>
-          <a href="#features" class="btn btn-secondary">&#9632; See Modules</a>
+      <div class="cta-with-rex">
+        <img src="assets/rex/rex-rich.png" alt="Rex made it" class="rex-mascot rex-cta animate-in">
+        <div class="cta-text">
+          <span class="section-label">// Ready to Deploy</span>
+          <h2>Let 0xrex Trade For You</h2>
+          <p>100+ crypto assets. 9 exchanges. CryptoCred TA + GCR contrarian intelligence. Fully autonomous, 24/7.</p>
+          <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem;flex-wrap:wrap;">
+            <a href="#download" class="btn btn-primary">&#11015; Download Now</a>
+            <a href="#features" class="btn btn-secondary">&#9632; See Modules</a>
+          </div>
         </div>
       </div>
     </div>
