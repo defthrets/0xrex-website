@@ -332,3 +332,184 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(spawnParticle, 200);
   }
 });
+
+// -- Demo Module Animations --
+document.addEventListener('DOMContentLoaded', () => {
+
+  // === Module 01: Autonomous Agent ===
+  const agentLog = document.getElementById('agentLog');
+  const cycleFill = document.getElementById('agentCycleFill');
+  const cycleText = document.getElementById('agentCycleText');
+  if (agentLog) {
+    const agentEntries = [
+      { cmd: 'MKT.SCAN', msg: 'Scanning 1,247 pairs...', cls: '' },
+      { cmd: 'SIG.GEN', msg: 'BTC/USDT -- BUY -- conf 0.84', cls: 'log-green' },
+      { cmd: 'RSK.CHK', msg: 'Portfolio risk nominal', cls: '' },
+      { cmd: 'ORD.EXEC', msg: 'BUY 0.5 BTC @ $67,432 -- FILLED', cls: 'log-green' },
+      { cmd: 'SL.TP', msg: 'Monitoring 4 positions -- 30s', cls: '' },
+      { cmd: 'SIG.GEN', msg: 'ETH/USDT -- HOLD -- conf 0.52', cls: '' },
+      { cmd: 'RGM.CALC', msg: 'Regime: BULL TREND', cls: 'log-green' },
+      { cmd: 'SIG.GEN', msg: 'DOGE/USDT -- SELL -- conf 0.71', cls: 'log-red' },
+      { cmd: 'COR.CHK', msg: 'BTC/ETH corr 0.87 -- size adj', cls: '' },
+      { cmd: 'AGT.LOOP', msg: 'Cycle complete -- next in 5m', cls: '' },
+    ];
+    let aIdx = 0, cycle = 48;
+    function agentTick() {
+      const e = agentEntries[aIdx % agentEntries.length];
+      const d = new Date();
+      const ts = [d.getHours(), d.getMinutes(), d.getSeconds()].map(n => String(n).padStart(2, '0')).join(':');
+      const div = document.createElement('div');
+      div.className = 'demo-agent-log-line ' + e.cls;
+      div.innerHTML = '<span class="log-ts">' + ts + '</span><span class="log-cmd">' + e.cmd + '</span>' + e.msg;
+      agentLog.insertBefore(div, agentLog.firstChild);
+      if (agentLog.children.length > 5) agentLog.removeChild(agentLog.lastChild);
+      aIdx++;
+      if (aIdx % agentEntries.length === 0) cycle++;
+    }
+    // Cycle progress bar
+    let progress = 0;
+    setInterval(() => {
+      progress = (progress + 2) % 100;
+      if (cycleFill) cycleFill.style.width = progress + '%';
+      if (cycleText) cycleText.textContent = 'CYCLE ' + cycle + (progress < 60 ? ' -- scanning...' : ' -- executing...');
+    }, 120);
+    setInterval(agentTick, 2200);
+    agentTick();
+  }
+
+  // === Module 02: Signal Generator ===
+  const signalCards = document.getElementById('signalCards');
+  if (signalCards) {
+    const signals = [
+      { ticker: 'BTC', action: 'BUY', conf: 84, rsi: 42, entry: '$67,432', sl: '$65,200', tp: '$72,100' },
+      { ticker: 'ETH', action: 'BUY', conf: 76, rsi: 38, entry: '$3,521', sl: '$3,310', tp: '$3,890' },
+      { ticker: 'SOL', action: 'BUY', conf: 81, rsi: 45, entry: '$142.8', sl: '$134.0', tp: '$162.5' },
+      { ticker: 'DOGE', action: 'SELL', conf: 69, rsi: 72, entry: '$0.142', sl: '$0.158', tp: '$0.118' },
+      { ticker: 'RNDR', action: 'BUY', conf: 73, rsi: 35, entry: '$8.42', sl: '$7.80', tp: '$9.60' },
+      { ticker: 'PEPE', action: 'SELL', conf: 67, rsi: 78, entry: '$0.0000124', sl: '$0.0000138', tp: '$0.0000098' },
+      { ticker: 'AVAX', action: 'BUY', conf: 79, rsi: 41, entry: '$38.2', sl: '$35.5', tp: '$43.8' },
+    ];
+    let sIdx = 0;
+    function renderSignals() {
+      signalCards.innerHTML = '';
+      const show = [];
+      for (let i = 0; i < 3; i++) show.push(signals[(sIdx + i) % signals.length]);
+      show.forEach(s => {
+        const isBuy = s.action === 'BUY';
+        const div = document.createElement('div');
+        div.className = 'demo-signal-card';
+        div.innerHTML =
+          '<div><span class="demo-sig-ticker">' + s.ticker + '</span><br>' +
+          '<span class="demo-badge demo-badge--' + (isBuy ? 'green' : 'red') + '">' + s.action + '</span></div>' +
+          '<div class="demo-sig-mid"><span class="dm-label">RSI ' + s.rsi + ' | Entry ' + s.entry + '</span>' +
+          '<span class="dm-label">SL ' + s.sl + ' | TP ' + s.tp + '</span></div>' +
+          '<div class="demo-sig-conf ' + (isBuy ? 'dm-green' : 'dm-red') + '">' + s.conf + '%</div>';
+        signalCards.appendChild(div);
+      });
+      sIdx++;
+    }
+    renderSignals();
+    setInterval(renderSignals, 4000);
+  }
+
+  // === Module 04: Market Scanner ===
+  const scannerRows = document.getElementById('scannerRows');
+  if (scannerRows) {
+    const tickers = [
+      { t: 'BTC', p: 67432, c: 2.4 }, { t: 'ETH', p: 3521, c: 1.8 },
+      { t: 'SOL', p: 142.8, c: 3.2 }, { t: 'DOGE', p: 0.142, c: -1.3 },
+      { t: 'AVAX', p: 38.2, c: 4.1 }, { t: 'LINK', p: 14.8, c: -0.6 },
+      { t: 'DOT', p: 7.42, c: 1.1 }, { t: 'MATIC', p: 0.89, c: -2.1 },
+      { t: 'ARB', p: 1.24, c: 1.8 }, { t: 'RNDR', p: 8.42, c: 5.2 },
+      { t: 'FET', p: 2.18, c: 3.7 }, { t: 'PEPE', p: 0.0000124, c: -4.2 },
+      { t: 'INJ', p: 24.6, c: 2.9 }, { t: 'SUI', p: 1.82, c: 1.4 },
+    ];
+    function renderScanner() {
+      tickers.forEach(tk => {
+        tk.c += (Math.random() - 0.48) * 0.5;
+        tk.p *= 1 + (Math.random() - 0.48) * 0.002;
+      });
+      scannerRows.innerHTML = '';
+      tickers.slice(0, 8).forEach(tk => {
+        const isUp = tk.c >= 0;
+        const div = document.createElement('div');
+        div.className = 'demo-scanner-row';
+        const priceStr = tk.p >= 1 ? tk.p.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+          : tk.p.toFixed(7);
+        div.innerHTML =
+          '<span class="scan-ticker">' + tk.t + '</span>' +
+          '<span class="scan-price">$' + priceStr + '</span>' +
+          '<span class="scan-chg ' + (isUp ? 'dm-green' : 'dm-red') + '">' +
+          (isUp ? '+' : '') + tk.c.toFixed(1) + '%</span>';
+        scannerRows.appendChild(div);
+      });
+    }
+    renderScanner();
+    setInterval(renderScanner, 2000);
+  }
+
+  // === Module 05: Regime Engine ===
+  const regimeLabel = document.getElementById('regimeLabel');
+  if (regimeLabel) {
+    const regimes = [
+      { id: 'Bull', label: 'BULL TREND', desc: 'Momentum rising -- buy pullbacks to support', color: 'var(--green)', fg: 72, fgLabel: 'GREED', seg: 'segBull' },
+      { id: 'Accum', label: 'ACCUMULATION', desc: 'Volatility compressing -- build positions slowly', color: 'var(--cyan)', fg: 45, fgLabel: 'NEUTRAL', seg: 'segAccum' },
+      { id: 'Range', label: 'RANGING', desc: 'Sideways chop -- reduce size, trade edges only', color: 'var(--yellow)', fg: 50, fgLabel: 'NEUTRAL', seg: 'segRange' },
+      { id: 'Dist', label: 'DISTRIBUTION', desc: 'Smart money exiting -- tighten stops, reduce exposure', color: 'var(--purple)', fg: 62, fgLabel: 'GREED', seg: 'segDist' },
+      { id: 'Bear', label: 'BEAR TREND', desc: 'Lower highs confirmed -- short rallies into resistance', color: 'var(--red)', fg: 24, fgLabel: 'FEAR', seg: 'segBear' },
+    ];
+    let rIdx = 0;
+    function setRegime() {
+      const r = regimes[rIdx % regimes.length];
+      regimeLabel.textContent = r.label;
+      regimeLabel.style.color = r.color;
+      regimeLabel.style.textShadow = '0 0 10px ' + r.color;
+      document.getElementById('regimeDesc').textContent = r.desc;
+      document.querySelectorAll('.demo-regime-seg').forEach(s => s.classList.remove('active'));
+      document.getElementById(r.seg).classList.add('active');
+      document.getElementById('fgFill').style.width = r.fg + '%';
+      document.getElementById('fgVal').textContent = r.fg + ' -- ' + r.fgLabel;
+      document.getElementById('fgVal').className = 'dm-value ' + (r.fg > 55 ? 'dm-green' : r.fg < 35 ? 'dm-red' : 'dm-cyan');
+      rIdx++;
+    }
+    setInterval(setRegime, 6000);
+  }
+
+  // === Module 06: Paper Trading Equity Chart ===
+  const eqCanvas = document.getElementById('paperEquityChart');
+  if (eqCanvas) {
+    const ctx = eqCanvas.getContext('2d');
+    const w = eqCanvas.width, h = eqCanvas.height;
+    let equity = [100000];
+    for (let i = 1; i < 50; i++) equity.push(equity[i - 1] * (1 + (Math.random() - 0.42) * 0.008));
+    function drawEquity() {
+      ctx.clearRect(0, 0, w, h);
+      const min = Math.min(...equity) * 0.999;
+      const max = Math.max(...equity) * 1.001;
+      ctx.strokeStyle = '#f59e0b';
+      ctx.lineWidth = 1.5;
+      ctx.shadowColor = '#f59e0b';
+      ctx.shadowBlur = 4;
+      ctx.beginPath();
+      equity.forEach((v, i) => {
+        const x = (i / (equity.length - 1)) * w;
+        const y = h - ((v - min) / (max - min)) * h;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+      // Fill under
+      ctx.lineTo(w, h);
+      ctx.lineTo(0, h);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(245,158,11,0.06)';
+      ctx.fill();
+    }
+    drawEquity();
+    setInterval(() => {
+      equity.push(equity[equity.length - 1] * (1 + (Math.random() - 0.42) * 0.005));
+      if (equity.length > 60) equity.shift();
+      drawEquity();
+    }, 2000);
+  }
+});

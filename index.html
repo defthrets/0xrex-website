@@ -96,7 +96,7 @@
   <!-- Meet Rex -->
   <section style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:3rem 0;">
     <div class="container" style="display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;">
-      <img src="assets/rex/rex-welcome.png" alt="Rex the trading gecko" class="rex-mascot" style="max-width:160px;">
+      <img src="assets/rex/rex-welcome.png" alt="Rex the trading gecko" class="rex-mascot" style="max-width:200px;">
       <div style="max-width:500px;">
         <span class="section-label">// Your Trading Assistant</span>
         <h2 style="margin:0.5rem 0;">Meet Rex</h2>
@@ -120,14 +120,14 @@
             <div class="demo-radar-telemetry" id="demoRadarTelem"></div>
             <div class="demo-radar-scanline"></div>
             <svg class="demo-radar-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(0,255,136,0.1)" stroke-width="0.5"/>
-              <circle cx="60" cy="60" r="40" fill="none" stroke="rgba(0,255,136,0.08)" stroke-width="0.5"/>
-              <circle cx="60" cy="60" r="25" fill="none" stroke="rgba(0,255,136,0.06)" stroke-width="0.5"/>
-              <circle cx="60" cy="60" r="10" fill="none" stroke="rgba(0,255,136,0.05)" stroke-width="0.5"/>
-              <line x1="60" y1="2" x2="60" y2="118" stroke="rgba(0,255,136,0.06)" stroke-width="0.5"/>
-              <line x1="2" y1="60" x2="118" y2="60" stroke="rgba(0,255,136,0.06)" stroke-width="0.5"/>
-              <line x1="20" y1="20" x2="100" y2="100" stroke="rgba(0,255,136,0.03)" stroke-width="0.3" stroke-dasharray="3,8"/>
-              <line x1="100" y1="20" x2="20" y2="100" stroke="rgba(0,255,136,0.03)" stroke-width="0.3" stroke-dasharray="3,8"/>
+              <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(245,158,11,0.1)" stroke-width="0.5"/>
+              <circle cx="60" cy="60" r="40" fill="none" stroke="rgba(245,158,11,0.08)" stroke-width="0.5"/>
+              <circle cx="60" cy="60" r="25" fill="none" stroke="rgba(245,158,11,0.06)" stroke-width="0.5"/>
+              <circle cx="60" cy="60" r="10" fill="none" stroke="rgba(245,158,11,0.05)" stroke-width="0.5"/>
+              <line x1="60" y1="2" x2="60" y2="118" stroke="rgba(245,158,11,0.06)" stroke-width="0.5"/>
+              <line x1="2" y1="60" x2="118" y2="60" stroke="rgba(245,158,11,0.06)" stroke-width="0.5"/>
+              <line x1="20" y1="20" x2="100" y2="100" stroke="rgba(245,158,11,0.03)" stroke-width="0.3" stroke-dasharray="3,8"/>
+              <line x1="100" y1="20" x2="20" y2="100" stroke="rgba(245,158,11,0.03)" stroke-width="0.3" stroke-dasharray="3,8"/>
               <path class="demo-radar-beam" d="M60,60 L60,5 A55,55 0 0,1 107,35 Z" fill="url(#demoRadarGrad)"/>
               <g class="demo-blips">
                 <circle cx="42" cy="30" r="2" class="demo-blip demo-blip--green"/>
@@ -139,11 +139,11 @@
                 <circle cx="28" cy="52" r="2" class="demo-blip demo-blip--green" style="animation-delay:2.8s"/>
                 <circle cx="90" cy="55" r="2" class="demo-blip demo-blip--amber" style="animation-delay:1.8s"/>
               </g>
-              <circle cx="60" cy="60" r="2.5" fill="#00ff88" opacity="0.9" class="demo-center-dot"/>
-              <circle cx="60" cy="60" r="4" fill="none" stroke="#00ff88" stroke-width="0.5" opacity="0.4"/>
+              <circle cx="60" cy="60" r="2.5" fill="#f59e0b" opacity="0.9" class="demo-center-dot"/>
+              <circle cx="60" cy="60" r="4" fill="none" stroke="#f59e0b" stroke-width="0.5" opacity="0.4"/>
               <defs>
                 <radialGradient id="demoRadarGrad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="rgba(0,255,136,0.18)"/>
+                  <stop offset="0%" stop-color="rgba(245,158,11,0.18)"/>
                   <stop offset="100%" stop-color="transparent"/>
                 </radialGradient>
               </defs>
@@ -159,7 +159,7 @@
           <div class="ops-demo-term-header">
             <span class="ops-demo-dot" style="background:#ef4444;"></span>
             <span class="ops-demo-dot" style="background:#eab308;"></span>
-            <span class="ops-demo-dot" style="background:#00ff88;"></span>
+            <span class="ops-demo-dot" style="background:#f59e0b;"></span>
             <span class="ops-demo-term-title">LIVE OPS LOG</span>
           </div>
           <div class="ops-demo-term-body" id="demoOpsLog"></div>
@@ -179,49 +179,152 @@
         </div>
         <img src="assets/rex/rex-thinking.png" alt="Rex thinking about trades" class="rex-mascot rex-section animate-in">
       </div>
-      <div class="features-grid">
-        <div class="card animate-in">
-          <span class="feature-tag">Module 01</span>
-          <div class="card-icon">&#9670;</div>
-          <h3>Autonomous Agent</h3>
-          <p>Core trading loop with configurable cycle intervals. Auto-executes BUY/SELL signals in paper mode, monitors SL/TP every 30 seconds, and broadcasts results via WebSocket.</p>
+      <div class="demo-modules">
+
+        <!-- Module 01: Autonomous Agent -->
+        <div class="demo-panel animate-in">
+          <div class="demo-header"><span class="feature-tag">Module 01</span><h3>Autonomous Agent</h3></div>
+          <div class="demo-body" id="demoAgent">
+            <div class="demo-agent-status">
+              <span class="demo-badge demo-badge--green">AGENT ONLINE</span>
+              <span class="demo-badge demo-badge--cyan">PAPER MODE</span>
+            </div>
+            <div class="demo-agent-metrics">
+              <div class="demo-metric"><span class="dm-label">NAV</span><span class="dm-value" id="agentNav">$102,847</span></div>
+              <div class="demo-metric"><span class="dm-label">ROI</span><span class="dm-value dm-green" id="agentRoi">+2.85%</span></div>
+              <div class="demo-metric"><span class="dm-label">WIN RATE</span><span class="dm-value" id="agentWin">68%</span></div>
+              <div class="demo-metric"><span class="dm-label">TRADES</span><span class="dm-value" id="agentTrades">47</span></div>
+            </div>
+            <div class="demo-agent-cycle">
+              <div class="demo-cycle-bar"><div class="demo-cycle-fill" id="agentCycleFill"></div></div>
+              <span class="demo-cycle-text" id="agentCycleText">CYCLE 48 -- scanning...</span>
+            </div>
+            <div class="demo-agent-log" id="agentLog"></div>
+          </div>
         </div>
-        <div class="card animate-in animate-delay-1">
-          <span class="feature-tag">Module 02</span>
-          <div class="card-icon">&#9655;</div>
-          <h3>Signal Generator</h3>
-          <p>Multi-timeframe technical analysis — RSI, MACD, Bollinger Bands, ATR, trend detection. Confidence-scored signals filtered by minimum threshold (default 60%).</p>
+
+        <!-- Module 02: Signal Generator -->
+        <div class="demo-panel animate-in animate-delay-1">
+          <div class="demo-header"><span class="feature-tag">Module 02</span><h3>Signal Generator</h3></div>
+          <div class="demo-body" id="demoSignals">
+            <div class="demo-signal-cards" id="signalCards"></div>
+          </div>
         </div>
-        <div class="card animate-in animate-delay-2">
-          <span class="feature-tag">Module 03</span>
-          <div class="card-icon">&#9651;</div>
-          <h3>Risk Engine</h3>
-          <p>Correlation-aware position sizing, risk parity weights, circuit breaker protection. Auto-closes positions on SL/TP hits. Portfolio health reports and drawdown tracking.</p>
+
+        <!-- Module 03: Risk Engine -->
+        <div class="demo-panel animate-in animate-delay-2">
+          <div class="demo-header"><span class="feature-tag">Module 03</span><h3>Risk Engine</h3></div>
+          <div class="demo-body" id="demoRisk">
+            <div class="demo-risk-cb">
+              <span class="demo-badge demo-badge--green" id="riskCbBadge">CIRCUIT BREAKER ARMED</span>
+            </div>
+            <div class="demo-risk-bars">
+              <div class="demo-risk-bar-item">
+                <span class="dm-label">DAILY STOP-LOSS (2% limit)</span>
+                <div class="demo-risk-bar"><div class="demo-risk-fill" id="riskDailyFill" style="width:35%"></div></div>
+                <span class="dm-value" id="riskDailyVal">-0.7%</span>
+              </div>
+              <div class="demo-risk-bar-item">
+                <span class="dm-label">MAX DRAWDOWN (10% limit)</span>
+                <div class="demo-risk-bar"><div class="demo-risk-fill" id="riskDdFill" style="width:18%"></div></div>
+                <span class="dm-value" id="riskDdVal">-1.8%</span>
+              </div>
+            </div>
+            <div class="demo-risk-metrics">
+              <div class="demo-metric"><span class="dm-label">SHARPE</span><span class="dm-value dm-cyan" id="riskSharpe">1.84</span></div>
+              <div class="demo-metric"><span class="dm-label">SORTINO</span><span class="dm-value dm-cyan" id="riskSortino">2.31</span></div>
+              <div class="demo-metric"><span class="dm-label">WIN RATE</span><span class="dm-value dm-green" id="riskWin">68%</span></div>
+              <div class="demo-metric"><span class="dm-label">DAILY P&L</span><span class="dm-value dm-green" id="riskPnl">+$412</span></div>
+            </div>
+          </div>
         </div>
-        <div class="card animate-in animate-delay-3">
-          <span class="feature-tag">Module 04</span>
-          <div class="card-icon">&#9656;</div>
-          <h3>Market Scanner</h3>
-          <p>Scans 1,000+ crypto tickers across all sectors — Layer 1, Layer 2, DeFi, AI tokens, meme coins, and infrastructure. Real-time price feeds with opportunity detection.</p>
+
+        <!-- Module 04: Market Scanner -->
+        <div class="demo-panel animate-in animate-delay-3">
+          <div class="demo-header"><span class="feature-tag">Module 04</span><h3>Market Scanner</h3></div>
+          <div class="demo-body" id="demoScanner">
+            <div class="demo-scanner-header">
+              <span class="dm-label">TICKER</span><span class="dm-label">PRICE</span><span class="dm-label">CHG%</span>
+            </div>
+            <div class="demo-scanner-rows" id="scannerRows"></div>
+            <div class="demo-scanner-status" id="scannerStatus">SCANNING 1,247 PAIRS...</div>
+          </div>
         </div>
-        <div class="card animate-in">
-          <span class="feature-tag">Module 05</span>
-          <div class="card-icon">&#9674;</div>
-          <h3>Regime Engine</h3>
-          <p>Classifies market conditions into 5 regimes — Bull Trend, Bear Trend, Accumulation, Distribution, Ranging. Adapts strategy allocation based on current regime.</p>
+
+        <!-- Module 05: Regime Engine -->
+        <div class="demo-panel animate-in">
+          <div class="demo-header"><span class="feature-tag">Module 05</span><h3>Regime Engine</h3></div>
+          <div class="demo-body" id="demoRegime">
+            <div class="demo-regime-current">
+              <span class="demo-regime-label" id="regimeLabel">BULL TREND</span>
+              <span class="demo-regime-desc" id="regimeDesc">Momentum rising -- buy pullbacks to support</span>
+            </div>
+            <div class="demo-regime-gauge">
+              <div class="demo-regime-segments">
+                <div class="demo-regime-seg seg-bear" id="segBear"><span>BEAR</span></div>
+                <div class="demo-regime-seg seg-accum" id="segAccum"><span>ACCUM</span></div>
+                <div class="demo-regime-seg seg-range" id="segRange"><span>RANGE</span></div>
+                <div class="demo-regime-seg seg-dist" id="segDist"><span>DIST</span></div>
+                <div class="demo-regime-seg seg-bull active" id="segBull"><span>BULL</span></div>
+              </div>
+            </div>
+            <div class="demo-regime-sentiment">
+              <span class="dm-label">FEAR & GREED</span>
+              <div class="demo-fg-bar"><div class="demo-fg-fill" id="fgFill" style="width:72%"></div></div>
+              <span class="dm-value dm-green" id="fgVal">72 -- GREED</span>
+            </div>
+          </div>
         </div>
-        <div class="card animate-in animate-delay-1">
-          <span class="feature-tag">Module 06</span>
-          <div class="card-icon">&#9634;</div>
-          <h3>Paper Trading</h3>
-          <p>Risk-free simulated trading with $100K+ starting capital. Full portfolio tracking, equity curve history, P&L calculations, and trade persistence.</p>
+
+        <!-- Module 06: Paper Trading -->
+        <div class="demo-panel animate-in animate-delay-1">
+          <div class="demo-header"><span class="feature-tag">Module 06</span><h3>Paper Trading</h3></div>
+          <div class="demo-body" id="demoPaper">
+            <div class="demo-paper-summary">
+              <div class="demo-metric"><span class="dm-label">PORTFOLIO</span><span class="dm-value" id="paperNav">$102,847</span></div>
+              <div class="demo-metric"><span class="dm-label">CASH</span><span class="dm-value" id="paperCash">$67,210</span></div>
+              <div class="demo-metric"><span class="dm-label">P&L</span><span class="dm-value dm-green" id="paperPnl">+$2,847</span></div>
+            </div>
+            <div class="demo-paper-positions" id="paperPositions">
+              <div class="demo-paper-row"><span class="dm-cyan">BTC</span><span class="dm-green">LONG</span><span>0.5</span><span class="dm-green">+$1,204</span></div>
+              <div class="demo-paper-row"><span class="dm-cyan">ETH</span><span class="dm-green">LONG</span><span>2.0</span><span class="dm-green">+$892</span></div>
+              <div class="demo-paper-row"><span class="dm-cyan">SOL</span><span class="dm-green">LONG</span><span>15</span><span class="dm-green">+$341</span></div>
+              <div class="demo-paper-row"><span class="dm-cyan">DOGE</span><span class="dm-red">SHORT</span><span>5000</span><span class="dm-red">-$89</span></div>
+            </div>
+            <div class="demo-paper-equity">
+              <canvas id="paperEquityChart" width="300" height="60"></canvas>
+            </div>
+          </div>
         </div>
-        <div class="card animate-in animate-delay-2">
-          <span class="feature-tag">Module 07</span>
-          <div class="card-icon">&#8593;</div>
-          <h3>Backtest Lab</h3>
-          <p>Walk-forward optimization engine with configurable train/test windows. Period-by-period performance analysis and strategy validation before live deployment.</p>
+
+        <!-- Module 07: Backtest Lab -->
+        <div class="demo-panel animate-in animate-delay-2">
+          <div class="demo-header"><span class="feature-tag">Module 07</span><h3>Backtest Lab</h3></div>
+          <div class="demo-body" id="demoBacktest">
+            <div class="demo-bt-status">
+              <span class="demo-badge demo-badge--green">COMPLETE</span>
+              <span class="demo-bt-window">12M TRAIN / 3M TEST</span>
+            </div>
+            <div class="demo-bt-metrics">
+              <div class="demo-metric"><span class="dm-label">RETURN</span><span class="dm-value dm-green">+34.2%</span></div>
+              <div class="demo-metric"><span class="dm-label">SHARPE</span><span class="dm-value dm-cyan">1.72</span></div>
+              <div class="demo-metric"><span class="dm-label">MAX DD</span><span class="dm-value dm-red">-8.4%</span></div>
+              <div class="demo-metric"><span class="dm-label">WIN RATE</span><span class="dm-value">64%</span></div>
+            </div>
+            <div class="demo-bt-bars" id="btBars">
+              <div class="demo-bt-bar-wrap"><div class="demo-bt-bar dm-bg-green" style="height:65%"></div><span>P1</span></div>
+              <div class="demo-bt-bar-wrap"><div class="demo-bt-bar dm-bg-green" style="height:45%"></div><span>P2</span></div>
+              <div class="demo-bt-bar-wrap"><div class="demo-bt-bar dm-bg-red" style="height:20%"></div><span>P3</span></div>
+              <div class="demo-bt-bar-wrap"><div class="demo-bt-bar dm-bg-green" style="height:80%"></div><span>P4</span></div>
+              <div class="demo-bt-bar-wrap"><div class="demo-bt-bar dm-bg-green" style="height:55%"></div><span>P5</span></div>
+              <div class="demo-bt-bar-wrap"><div class="demo-bt-bar dm-bg-red" style="height:15%"></div><span>P6</span></div>
+              <div class="demo-bt-bar-wrap"><div class="demo-bt-bar dm-bg-green" style="height:70%"></div><span>P7</span></div>
+              <div class="demo-bt-bar-wrap"><div class="demo-bt-bar dm-bg-green" style="height:50%"></div><span>P8</span></div>
+            </div>
+            <div class="demo-bt-label">PERIOD-BY-PERIOD RETURNS (walk-forward)</div>
+          </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -303,7 +406,7 @@
   <section id="principles" style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
     <div class="container">
       <div class="section-header">
-        <img src="assets/rex/rex-trading.png" alt="Rex trading" class="rex-mascot" style="max-width:140px;margin:0 auto 1rem;">
+        <img src="assets/rex/rex-trading.png" alt="Rex trading" class="rex-mascot" style="max-width:180px;margin:0 auto 1rem;">
         <span class="section-label">// Core Strategy</span>
         <h2>CryptoCred + GCR Ultra Ruleset</h2>
         <p>Every decision is grounded in proven crypto-native trading methodologies.</p>
@@ -333,7 +436,7 @@
   <section id="assets">
     <div class="container">
       <div class="section-header">
-        <img src="assets/rex/rex-panic.png" alt="Rex scanning assets" class="rex-mascot" style="max-width:140px;margin:0 auto 1rem;">
+        <img src="assets/rex/rex-panic.png" alt="Rex scanning assets" class="rex-mascot" style="max-width:180px;margin:0 auto 1rem;">
         <span class="section-label">// Asset Universe</span>
         <h2>1,000+ Tracked Crypto Assets</h2>
         <p>Every major sector in the crypto ecosystem — from blue-chip to microcap.</p>
@@ -441,7 +544,7 @@
   <section id="download">
     <div class="container">
       <div class="section-header">
-        <img src="assets/rex/rex-broke.png" alt="Rex needs 0xrex" class="rex-mascot" style="max-width:140px;margin:0 auto 1rem;">
+        <img src="assets/rex/rex-broke.png" alt="Rex needs 0xrex" class="rex-mascot" style="max-width:180px;margin:0 auto 1rem;">
         <span class="section-label">// Download</span>
         <h2>Get 0xrex</h2>
         <p style="font-size:1.1rem;"><strong style="color:var(--green);">Free</strong> to download and use.<br>Self-contained Windows executable. No Python installation required. Extract, configure, and run.</p>
