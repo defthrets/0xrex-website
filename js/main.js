@@ -4,9 +4,9 @@
 (function() {
   let throttle = 0;
   document.addEventListener('mousemove', (e) => {
-    if (Date.now() - throttle < 50) return;
+    if (Date.now() - throttle < 70) return;
     throttle = Date.now();
-    var count = 2 + Math.floor(Math.random() * 2);
+    var count = 1;
     for (var i = 0; i < count; i++) {
       var p = document.createElement('div');
       p.className = 'cursor-firefly';
