@@ -1,5 +1,15 @@
 // -- 0xrex Website -- Shared JavaScript --
 
+// Cursor-following gradient
+(function() {
+  const grad = document.querySelector('.cursor-gradient');
+  if (!grad) return;
+  document.addEventListener('mousemove', (e) => {
+    grad.style.setProperty('--mouse-x', e.clientX + 'px');
+    grad.style.setProperty('--mouse-y', e.clientY + 'px');
+  });
+})();
+
 // Mobile nav toggle
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.getElementById('navToggle');
