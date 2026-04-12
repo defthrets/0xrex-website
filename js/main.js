@@ -270,3 +270,65 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   setTimeout(addLine, 2000);
 });
+
+// -- Asset Scanner Counter + Particles --
+document.addEventListener('DOMContentLoaded', () => {
+  const counter = document.getElementById('assetCounter');
+  const particles = document.getElementById('assetParticles');
+  if (!counter) return;
+
+  // Animate counter from 0 to 1000+
+  let started = false;
+  function animateCount() {
+    if (started) return;
+    started = true;
+    const target = 1247;
+    const duration = 2500;
+    const start = performance.now();
+    function tick(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      counter.textContent = Math.floor(eased * target).toLocaleString();
+      if (progress < 1) requestAnimationFrame(tick);
+      else counter.textContent = '1,247';
+    }
+    requestAnimationFrame(tick);
+  }
+
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) { animateCount(); obs.disconnect(); }
+    }, { threshold: 0.3 });
+    obs.observe(counter);
+  } else {
+    animateCount();
+  }
+
+  // Floating scan particles
+  if (particles) {
+    function spawnParticle() {
+      const el = document.createElement('div');
+      el.className = 'scan-particle';
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 80 + Math.random() * 160;
+      const cx = particles.offsetWidth / 2;
+      const cy = particles.offsetHeight / 2;
+      const endX = cx + Math.cos(angle) * radius;
+      const endY = cy + Math.sin(angle) * radius;
+      el.style.left = cx + 'px';
+      el.style.top = cy + 'px';
+      el.style.setProperty('--tx', (endX - cx) + 'px');
+      el.style.setProperty('--ty', (endY - cy) + 'px');
+      el.style.animation = 'none';
+      particles.appendChild(el);
+      requestAnimationFrame(() => {
+        el.style.animation = '';
+        el.style.left = endX + 'px';
+        el.style.top = endY + 'px';
+      });
+      setTimeout(() => el.remove(), 3000);
+    }
+    setInterval(spawnParticle, 200);
+  }
+});
