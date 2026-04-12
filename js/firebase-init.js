@@ -2,6 +2,7 @@
 // Replace these values with your Firebase project config
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBNeE4bFm1POKhKNKP0a8z6xdq_HEjw9E0",
@@ -14,5 +15,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-export { app, auth };
+export { app, auth, db };

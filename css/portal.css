@@ -402,6 +402,151 @@ body.portal-body.auth-ready { opacity: 1; }
   min-width: 60px;
 }
 
+/* -- Purchase Modal -- */
+.purchase-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: purchaseFadeIn 0.3s ease-out;
+}
+.purchase-modal.hidden { display: none; }
+
+@keyframes purchaseFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.purchase-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+}
+
+.purchase-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 12px;
+  padding: 2.5rem;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 30px rgba(245,158,11,0.08);
+  animation: purchaseSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes purchaseSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.purchase-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+}
+.purchase-close:hover { color: var(--text-primary); }
+
+.purchase-title {
+  font-size: 1.3rem;
+  margin: 0 0 1.25rem;
+  color: var(--accent);
+}
+
+.purchase-summary {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+.purchase-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  padding: 0.4rem 0;
+}
+.purchase-row--total {
+  border-top: 1px solid var(--border);
+  margin-top: 0.4rem;
+  padding-top: 0.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.purchase-note {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.purchase-btn {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.purchase-success-icon {
+  font-size: 3rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  animation: purchasePulse 1.5s ease-in-out infinite;
+}
+@keyframes purchasePulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.1); opacity: 0.8; }
+}
+
+.purchase-text {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.purchase-key-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+.purchase-key {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.purchase-instructions {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  padding: 0.6rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.portal-license-card.hidden { display: none; }
+
 /* -- Responsive -- */
 @media (max-width: 768px) {
   .portal-layout { grid-template-columns: 1fr; }

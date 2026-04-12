@@ -91,8 +91,8 @@
           <h2>Subscription Management</h2>
         </div>
         <div class="portal-plans">
-          <div class="portal-plan-card portal-plan--current">
-            <div class="demo-badge demo-badge--cyan">CURRENT</div>
+          <div class="portal-plan-card" id="planCardFree">
+            <div class="demo-badge demo-badge--cyan" id="freeBadge">CURRENT</div>
             <h3>Free</h3>
             <div class="portal-plan-price">$0</div>
             <ul class="portal-plan-features">
@@ -102,8 +102,8 @@
               <li>Community support</li>
             </ul>
           </div>
-          <div class="portal-plan-card portal-plan--pro">
-            <div class="demo-badge demo-badge--green">PRO</div>
+          <div class="portal-plan-card portal-plan--pro" id="planCardPro">
+            <div class="demo-badge demo-badge--green" id="proBadge">PRO</div>
             <h3>Pro</h3>
             <div class="portal-plan-price">$29<span>/mo</span></div>
             <ul class="portal-plan-features">
@@ -111,10 +111,20 @@
               <li>Unlimited assets</li>
               <li>Advanced signals + Risk Engine</li>
               <li>Priority support</li>
-              <li>All 9 exchanges</li>
+              <li>All 10 exchanges</li>
               <li>Unique license key</li>
             </ul>
-            <button class="btn btn-primary">Upgrade to Pro</button>
+            <button class="btn btn-primary" id="upgradeBtn" onclick="startPurchase()">Upgrade to Pro</button>
+          </div>
+        </div>
+
+        <!-- License Key Display (shown after purchase) -->
+        <div class="portal-card portal-license-card hidden" id="subLicenseCard" style="margin-top:1.5rem;">
+          <span class="dm-label">Your PRO License Key</span>
+          <div class="portal-license-wrap" id="subLicenseWrap"></div>
+          <div class="portal-license-instructions">
+            Copy this key and paste it into the 0xrex desktop app:<br>
+            Settings tab > scroll to License Key > paste > click ACTIVATE
           </div>
         </div>
       </section>
@@ -275,6 +285,41 @@
       <div class="footer-copy">&copy; 2026 0xrex. All rights reserved.</div>
     </div>
   </footer>
+
+  <!-- Purchase Modal -->
+  <div class="purchase-modal hidden" id="purchaseModal">
+    <div class="purchase-backdrop" onclick="closePurchase()"></div>
+    <div class="purchase-card">
+      <button class="purchase-close" onclick="closePurchase()">&#10005;</button>
+
+      <!-- Step 1: Confirm -->
+      <div id="purchaseStep1">
+        <h2 class="purchase-title">Upgrade to PRO</h2>
+        <div class="purchase-summary">
+          <div class="purchase-row"><span>Plan</span><span>0xrex PRO</span></div>
+          <div class="purchase-row"><span>Price</span><span>$29.00 / month</span></div>
+          <div class="purchase-row purchase-row--total"><span>Total today</span><span>$29.00 AUD</span></div>
+        </div>
+        <p class="purchase-note">Payment processing coming soon. For now, click below to activate your PRO trial and receive your license key instantly.</p>
+        <button class="btn btn-primary purchase-btn" id="purchaseConfirmBtn" onclick="confirmPurchase()">Activate PRO</button>
+      </div>
+
+      <!-- Step 2: Success + Key -->
+      <div id="purchaseStep2" class="hidden">
+        <div class="purchase-success-icon">&#9670;</div>
+        <h2 class="purchase-title">You're PRO now, legend!</h2>
+        <p class="purchase-text">Your license key has been generated. Copy it and paste it into the 0xrex desktop app to unlock live trading.</p>
+        <div class="purchase-key-wrap">
+          <code class="purchase-key" id="purchaseKeyDisplay">--</code>
+          <button class="portal-copy-btn" id="purchaseKeyCopy" onclick="copyPurchaseKey()">COPY</button>
+        </div>
+        <div class="purchase-instructions">
+          Open 0xrex app > Live Trading tab or Settings > click ACTIVATE PRO > paste key
+        </div>
+        <button class="btn btn-primary purchase-btn" onclick="closePurchase()" style="margin-top:1.5rem;">Done</button>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="js/portal.js"></script>
   <script src="js/main.js"></script>
