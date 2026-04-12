@@ -1,17 +1,28 @@
 // -- 0xrex Website -- Shared JavaScript --
 
-// Cursor trail particles
+// Cursor fireflies
 (function() {
   let throttle = 0;
   document.addEventListener('mousemove', (e) => {
-    if (Date.now() - throttle < 40) return;
+    if (Date.now() - throttle < 60) return;
     throttle = Date.now();
-    const p = document.createElement('div');
-    p.className = 'cursor-particle';
-    p.style.left = (e.clientX - 2) + 'px';
-    p.style.top = (e.clientY - 2) + 'px';
-    document.body.appendChild(p);
-    setTimeout(() => p.remove(), 800);
+    var count = Math.random() < 0.4 ? 2 : 1;
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement('div');
+      p.className = 'cursor-firefly';
+      var ox = (Math.random() - 0.5) * 16;
+      var oy = (Math.random() - 0.5) * 16;
+      p.style.left = (e.clientX - 1.5 + ox) + 'px';
+      p.style.top = (e.clientY - 1.5 + oy) + 'px';
+      var dx = (Math.random() - 0.5) * 60;
+      var dy = (Math.random() - 0.5) * 60 - 15;
+      var dur = 1.2 + Math.random() * 0.8;
+      p.style.setProperty('--fly-x', dx + 'px');
+      p.style.setProperty('--fly-y', dy + 'px');
+      p.style.setProperty('--fly-dur', dur + 's');
+      document.body.appendChild(p);
+      setTimeout(function(el) { el.remove(); }.bind(null, p), dur * 1000);
+    }
   });
 })();
 
