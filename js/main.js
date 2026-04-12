@@ -4,18 +4,18 @@
 (function() {
   let throttle = 0;
   document.addEventListener('mousemove', (e) => {
-    if (Date.now() - throttle < 90) return;
+    if (Date.now() - throttle < 50) return;
     throttle = Date.now();
-    var count = 1;
+    var count = 2 + Math.floor(Math.random() * 2);
     for (var i = 0; i < count; i++) {
       var p = document.createElement('div');
       p.className = 'cursor-firefly';
-      var ox = (Math.random() - 0.5) * 16;
-      var oy = (Math.random() - 0.5) * 16;
+      var ox = (Math.random() - 0.5) * 50;
+      var oy = (Math.random() - 0.5) * 50;
       p.style.left = (e.clientX - 1.5 + ox) + 'px';
       p.style.top = (e.clientY - 1.5 + oy) + 'px';
-      var dx = (Math.random() - 0.5) * 60;
-      var dy = (Math.random() - 0.5) * 60 - 15;
+      var dx = (Math.random() - 0.5) * 100;
+      var dy = (Math.random() - 0.5) * 100 - 10;
       var dur = 1.2 + Math.random() * 0.8;
       p.style.setProperty('--fly-x', dx + 'px');
       p.style.setProperty('--fly-y', dy + 'px');
