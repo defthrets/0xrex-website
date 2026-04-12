@@ -169,9 +169,10 @@ code, pre { font-family: var(--font-mono); font-size: 0.9rem; }
 }
 
 .nav-brand h1 {
-  font-size: 1.2rem; font-weight: 800;
+  font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700;
   background: linear-gradient(135deg, var(--cyan), var(--accent));
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  letter-spacing: -0.02em;
 }
 
 .nav-brand .version {
@@ -293,7 +294,7 @@ section { padding: 6rem 0; }
 }
 
 .hero h1 { margin-bottom: 1.5rem; }
-.hero h1 .gradient { background: linear-gradient(135deg, #00d4ff, #00ff88, #66ffbb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero h1 .gradient { font-family: var(--font-mono); font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(135deg, #00d4ff, #00ff88, #66ffbb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
 .hero-desc { font-size: 1.25rem; color: var(--text-secondary); max-width: 650px; margin: 0 auto 2.5rem; line-height: 1.8; }
 .hero-actions { display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem; }
