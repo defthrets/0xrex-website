@@ -86,7 +86,20 @@ a:hover { color: #fbbf24; text-shadow: 0 0 10px var(--accent-glow); }
 
 code, pre { font-family: var(--font-mono); font-size: 0.9rem; }
 
-.logo-0x { color: var(--cyan); }
+.logo-0x {
+  color: var(--cyan); text-shadow: 0 0 8px var(--cyan), 0 0 20px rgba(34,197,94,0.4);
+  animation: oxGlitch 4s ease-in-out infinite;
+  display: inline-block; position: relative;
+}
+@keyframes oxGlitch {
+  0%, 78%, 82%, 90%, 94%, 100% { text-shadow: 0 0 8px var(--cyan), 0 0 20px rgba(34,197,94,0.4); transform: none; opacity: 1; }
+  79% { text-shadow: -3px 0 var(--red), 3px 0 var(--cyan), 0 0 20px var(--cyan); transform: translate(2px, -1px) skewX(-4deg); opacity: 0.8; }
+  80% { text-shadow: 3px 0 var(--cyan), -2px 0 var(--red), 0 0 30px var(--cyan); transform: translate(-3px, 1px) skewX(6deg); opacity: 0.3; }
+  81% { text-shadow: -1px 0 var(--red), 2px 0 var(--cyan), 0 0 15px var(--cyan); transform: translate(1px, -2px) skewX(-2deg); opacity: 0.9; }
+  91% { text-shadow: 2px 0 var(--red), -3px 0 var(--cyan), 0 0 25px var(--cyan); transform: translate(-2px, 1px) skewX(5deg); opacity: 0.4; }
+  92% { text-shadow: -2px 0 var(--cyan), 3px 0 var(--red), 0 0 30px var(--cyan); transform: translate(3px, 0) skewX(-3deg); opacity: 0.7; }
+  93% { text-shadow: 0 0 8px var(--cyan), 0 0 20px rgba(34,197,94,0.4); transform: translate(0, 0); opacity: 1; }
+}
 
 @keyframes logoGlitch {
   0%, 85%, 88%, 100% { text-shadow: 0 0 12px var(--green); transform: none; }
@@ -713,16 +726,16 @@ section { padding: 6rem 0; }
 .cash3d-top    { width: 24px; height: 5px; top: 5px; left: 0; transform: rotateX(90deg) translateZ(7.5px); }
 .cash3d-bottom { width: 24px; height: 5px; top: 5px; left: 0; transform: rotateX(-90deg) translateZ(7.5px); }
 
-.bill-face { width: 100%; height: 100%; background: linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(0,255,170,0.12) 50%, rgba(34,197,94,0.08) 100%); border: 1.5px solid rgba(34,197,94,0.7); border-radius: 2px; position: relative; overflow: hidden; box-shadow: inset 0 0 10px rgba(34,197,94,0.15); }
-.bill-border { position: absolute; top: 1px; left: 2px; right: 2px; bottom: 1px; border: 1px solid rgba(34,197,94,0.3); border-radius: 1px; }
-.bill-oval { position: absolute; width: 7px; height: 7px; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid rgba(0,255,170,0.35); border-radius: 50%; }
-.bill-dollar { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Georgia', serif; font-size: 6px; font-weight: bold; color: rgba(34,197,94,0.9); text-shadow: 0 0 4px rgba(34,197,94,0.6), 0 0 8px rgba(0,255,170,0.3); }
-.bill-100 { position: absolute; bottom: 1px; right: 1px; font-family: 'Courier New', monospace; font-size: 3px; font-weight: bold; color: rgba(34,197,94,0.5); }
+.bill-face { width: 100%; height: 100%; background: linear-gradient(135deg, rgba(0,212,255,0.08) 0%, rgba(0,212,255,0.15) 50%, rgba(0,212,255,0.08) 100%); border: 1.5px solid rgba(0,212,255,0.7); border-radius: 2px; position: relative; overflow: hidden; box-shadow: inset 0 0 10px rgba(0,212,255,0.15); }
+.bill-border { position: absolute; top: 1px; left: 2px; right: 2px; bottom: 1px; border: 1px solid rgba(0,212,255,0.3); border-radius: 1px; }
+.bill-oval { position: absolute; width: 7px; height: 7px; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid rgba(0,212,255,0.35); border-radius: 50%; }
+.bill-dollar { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: 'Georgia', serif; font-size: 6px; font-weight: bold; color: rgba(0,212,255,0.9); text-shadow: 0 0 4px rgba(0,212,255,0.6), 0 0 8px rgba(0,212,255,0.3); }
+.bill-100 { position: absolute; bottom: 1px; right: 1px; font-family: 'Courier New', monospace; font-size: 3px; font-weight: bold; color: rgba(0,212,255,0.5); }
 
-.stack-edge { width: 100%; height: 100%; background: repeating-linear-gradient(90deg, rgba(0,30,40,0.4) 0px, rgba(34,197,94,0.25) 0.8px, rgba(0,30,40,0.4) 1.6px); border: 1px solid rgba(34,197,94,0.5); }
-.stack-edge-h { width: 100%; height: 100%; background: repeating-linear-gradient(0deg, rgba(0,30,40,0.4) 0px, rgba(34,197,94,0.25) 0.8px, rgba(0,30,40,0.4) 1.6px); border: 1px solid rgba(34,197,94,0.5); }
+.stack-edge { width: 100%; height: 100%; background: repeating-linear-gradient(90deg, rgba(0,30,40,0.4) 0px, rgba(0,212,255,0.25) 0.8px, rgba(0,30,40,0.4) 1.6px); border: 1px solid rgba(0,212,255,0.5); }
+.stack-edge-h { width: 100%; height: 100%; background: repeating-linear-gradient(0deg, rgba(0,30,40,0.4) 0px, rgba(0,212,255,0.25) 0.8px, rgba(0,30,40,0.4) 1.6px); border: 1px solid rgba(0,212,255,0.5); }
 
-.band-face { position: absolute; backface-visibility: visible; background: linear-gradient(90deg, rgba(245,158,11,0.15) 0%, rgba(245,158,11,0.35) 40%, rgba(34,197,94,0.35) 60%, rgba(245,158,11,0.15) 100%); border: 1px solid rgba(245,158,11,0.6); box-shadow: 0 0 6px rgba(245,158,11,0.3), inset 0 0 4px rgba(245,158,11,0.15); }
+.band-face { position: absolute; backface-visibility: visible; background: linear-gradient(90deg, rgba(245,158,11,0.15) 0%, rgba(245,158,11,0.35) 40%, rgba(0,212,255,0.35) 60%, rgba(245,158,11,0.15) 100%); border: 1px solid rgba(245,158,11,0.6); box-shadow: 0 0 6px rgba(245,158,11,0.3), inset 0 0 4px rgba(245,158,11,0.15); }
 .band-front  { width: 5px; height: 15px; top: 0; left: 9.5px; transform: translateZ(2.7px); }
 .band-back   { width: 5px; height: 15px; top: 0; left: 9.5px; transform: rotateY(180deg) translateZ(2.7px); }
 .band-top    { width: 5px; height: 5px; top: 5px; left: 9.5px; transform: rotateX(90deg) translateZ(7.5px); }
@@ -739,9 +752,9 @@ section { padding: 6rem 0; }
 .cash3d-hero .cash3d-top    { width: 60px; height: 14px; top: 11px; left: 0; transform: rotateX(90deg) translateZ(18px); }
 .cash3d-hero .cash3d-bottom { width: 60px; height: 14px; top: 11px; left: 0; transform: rotateX(-90deg) translateZ(18px); }
 .cash3d-hero .bill-oval { width: 16px; height: 16px; }
-.cash3d-hero .bill-dollar { font-size: 14px; color: rgba(34,197,94,0.9); text-shadow: 0 0 6px rgba(34,197,94,0.6); }
+.cash3d-hero .bill-dollar { font-size: 14px; color: rgba(0,212,255,0.9); text-shadow: 0 0 6px rgba(0,212,255,0.6); }
 .cash3d-hero .bill-100 { font-size: 7px; }
-.cash3d-hero .band-face { background: linear-gradient(90deg, rgba(245,158,11,0.2) 0%, rgba(245,158,11,0.6) 40%, rgba(0,204,106,0.6) 60%, rgba(245,158,11,0.2) 100%); border: 1px solid rgba(245,158,11,0.8); box-shadow: 0 0 8px rgba(245,158,11,0.4), inset 0 0 4px rgba(245,158,11,0.2); }
+.cash3d-hero .band-face { background: linear-gradient(90deg, rgba(245,158,11,0.2) 0%, rgba(245,158,11,0.6) 40%, rgba(0,212,255,0.6) 60%, rgba(245,158,11,0.2) 100%); border: 1px solid rgba(245,158,11,0.8); box-shadow: 0 0 8px rgba(245,158,11,0.4), inset 0 0 4px rgba(245,158,11,0.2); }
 .cash3d-hero .band-front, .cash3d-hero .band-back { width: 14px; height: 36px; top: 0; left: 23px; }
 .cash3d-hero .band-front { transform: translateZ(7.2px); }
 .cash3d-hero .band-back  { transform: rotateY(180deg) translateZ(7.2px); }
