@@ -1,9 +1,17 @@
 // 0xrex Portal Logic
-import { auth } from './firebase-init.js';
+import { auth, db } from './firebase-init.js';
 import {
   onAuthStateChanged,
   signOut
 } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js';
+import {
+  doc,
+  getDoc,
+  setDoc
+} from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
+
+var _currentUser = null;
+var _userData = null;
 
 // Auth guard
 onAuthStateChanged(auth, (user) => {
@@ -13,11 +21,11 @@ onAuthStateChanged(auth, (user) => {
     return;
   }
   document.body.classList.add('auth-ready');
+  _currentUser = user;
   initPortal(user);
 });
 
 function generateLicenseKey(uid) {
-  // Simple hash-based key from UID (will be server-generated in production)
   var hash = 0;
   for (var i = 0; i < uid.length; i++) {
     hash = ((hash << 5) - hash) + uid.charCodeAt(i);
@@ -27,32 +35,66 @@ function generateLicenseKey(uid) {
   return '0XREX-PRO-' + hex.slice(0,4) + '-' + hex.slice(4,8) + '-' + hex.slice(8,12);
 }
 
-function initPortal(user) {
+async function loadUserData(uid) {
+  try {
+    var snap = await getDoc(doc(db, 'users', uid));
+    if (snap.exists()) {
+      return snap.data();
+    }
+  } catch (e) {
+    console.warn('Firestore read failed, falling back to localStorage', e);
+  }
+  // Fallback to localStorage
+  var settings = JSON.parse(localStorage.getItem('0xrex_settings_' + uid) || '{}');
+  return { tier: settings.tier || 'free', licenseKey: settings.licenseKey || null };
+}
+
+async function saveUserData(uid, data) {
+  try {
+    await setDoc(doc(db, 'users', uid), data, { merge: true });
+  } catch (e) {
+    console.warn('Firestore write failed, saving to localStorage', e);
+  }
+  // Always mirror to localStorage
+  var settings = JSON.parse(localStorage.getItem('0xrex_settings_' + uid) || '{}');
+  Object.assign(settings, data);
+  localStorage.setItem('0xrex_settings_' + uid, JSON.stringify(settings));
+}
+
+async function initPortal(user) {
   var email = user.email || 'Unknown';
   var created = user.metadata.creationTime
     ? new Date(user.metadata.creationTime).toLocaleDateString()
     : '--';
   var uid = user.uid;
 
-  // Load tier from localStorage (will come from backend later)
-  var settings = JSON.parse(localStorage.getItem('0xrex_settings_' + uid) || '{}');
-  var tier = settings.tier || 'free';
-  var isPro = tier === 'pro';
-  var licenseKey = isPro ? generateLicenseKey(uid) : null;
+  _userData = await loadUserData(uid);
+  var isPro = _userData.tier === 'pro';
+  var licenseKey = isPro ? (_userData.licenseKey || generateLicenseKey(uid)) : null;
 
   // Populate account info
   document.getElementById('portalEmail').textContent = email;
   document.getElementById('accountEmail').textContent = email;
   document.getElementById('accountCreated').textContent = created;
 
-  // Tier badge
+  updateTierUI(isPro, licenseKey);
+
+  // Load settings into form
+  loadSettings(uid, _userData);
+
+  // Populate placeholder trading data
+  populateTradingData();
+}
+
+function updateTierUI(isPro, licenseKey) {
+  // Tier badge in sidebar
   var tierEl = document.getElementById('portalTier');
   tierEl.textContent = isPro ? 'PRO' : 'FREE TIER';
   tierEl.className = 'portal-tier ' + (isPro ? 'portal-tier--pro' : 'portal-tier--free');
   document.getElementById('accountTier').textContent = isPro ? 'Pro' : 'Free';
   document.getElementById('accountTier').style.color = isPro ? 'var(--accent)' : 'var(--text-muted)';
 
-  // License key
+  // Account license key
   var licenseEl = document.getElementById('accountLicense');
   if (isPro && licenseKey) {
     licenseEl.innerHTML = '<div class="portal-license-wrap">' +
@@ -60,7 +102,8 @@ function initPortal(user) {
       '<button class="portal-copy-btn" id="copyLicense">COPY</button>' +
       '</div>' +
       '<div class="portal-license-instructions">' +
-      'Enter this key in 0xrex app > Settings > License Key to activate Pro mode.' +
+      'Enter this key in the 0xrex desktop app:<br>' +
+      'Live Trading tab or Settings > click ACTIVATE PRO > paste key' +
       '</div>';
     setTimeout(function() {
       var copyBtn = document.getElementById('copyLicense');
@@ -77,12 +120,115 @@ function initPortal(user) {
     licenseEl.innerHTML = '<span style="color:var(--text-muted);">Upgrade to Pro to receive your license key</span>';
   }
 
-  // Load settings into form
-  loadSettings(uid, settings);
+  // Subscription plan cards
+  var freeCard = document.getElementById('planCardFree');
+  var proCard = document.getElementById('planCardPro');
+  var freeBadge = document.getElementById('freeBadge');
+  var proBadge = document.getElementById('proBadge');
+  var upgradeBtn = document.getElementById('upgradeBtn');
 
-  // Populate placeholder trading data
-  populateTradingData();
+  if (isPro) {
+    freeCard.classList.add('portal-plan--current');
+    freeCard.classList.add('portal-plan--dimmed');
+    freeBadge.textContent = 'FREE';
+    freeBadge.className = 'demo-badge demo-badge--cyan';
+    proCard.classList.remove('portal-plan--current');
+    proBadge.textContent = 'CURRENT';
+    proBadge.className = 'demo-badge demo-badge--green';
+    upgradeBtn.textContent = 'Active';
+    upgradeBtn.disabled = true;
+    upgradeBtn.style.opacity = '0.5';
+    upgradeBtn.style.cursor = 'default';
+  } else {
+    freeCard.classList.add('portal-plan--current');
+    freeCard.classList.remove('portal-plan--dimmed');
+    freeBadge.textContent = 'CURRENT';
+    proCard.classList.remove('portal-plan--current');
+    proBadge.textContent = 'PRO';
+    upgradeBtn.textContent = 'Upgrade to Pro';
+    upgradeBtn.disabled = false;
+    upgradeBtn.style.opacity = '';
+    upgradeBtn.style.cursor = '';
+  }
+
+  // Sub page license card
+  var subCard = document.getElementById('subLicenseCard');
+  var subWrap = document.getElementById('subLicenseWrap');
+  if (isPro && licenseKey) {
+    subCard.classList.remove('hidden');
+    subWrap.innerHTML = '<span class="portal-license">' + licenseKey + '</span>' +
+      '<button class="portal-copy-btn" onclick="copySubKey()">COPY</button>';
+  } else {
+    subCard.classList.add('hidden');
+  }
 }
+
+// Purchase flow
+window.startPurchase = function() {
+  if (!_currentUser) return;
+  var modal = document.getElementById('purchaseModal');
+  var step1 = document.getElementById('purchaseStep1');
+  var step2 = document.getElementById('purchaseStep2');
+  step1.classList.remove('hidden');
+  step2.classList.add('hidden');
+  modal.classList.remove('hidden');
+};
+
+window.closePurchase = function() {
+  document.getElementById('purchaseModal').classList.add('hidden');
+};
+
+window.confirmPurchase = async function() {
+  if (!_currentUser) return;
+  var btn = document.getElementById('purchaseConfirmBtn');
+  btn.textContent = 'Processing...';
+  btn.disabled = true;
+
+  var uid = _currentUser.uid;
+  var licenseKey = generateLicenseKey(uid);
+
+  // Save to Firestore + localStorage
+  await saveUserData(uid, {
+    tier: 'pro',
+    licenseKey: licenseKey,
+    upgradedAt: new Date().toISOString()
+  });
+
+  _userData = Object.assign(_userData || {}, { tier: 'pro', licenseKey: licenseKey });
+
+  // Show key
+  document.getElementById('purchaseKeyDisplay').textContent = licenseKey;
+
+  // Switch to step 2
+  document.getElementById('purchaseStep1').classList.add('hidden');
+  document.getElementById('purchaseStep2').classList.remove('hidden');
+
+  // Update all UI
+  updateTierUI(true, licenseKey);
+
+  btn.textContent = 'Activate PRO';
+  btn.disabled = false;
+};
+
+window.copyPurchaseKey = function() {
+  var keyEl = document.getElementById('purchaseKeyDisplay');
+  var btn = document.getElementById('purchaseKeyCopy');
+  navigator.clipboard.writeText(keyEl.textContent).then(function() {
+    btn.textContent = 'COPIED';
+    setTimeout(function() { btn.textContent = 'COPY'; }, 2000);
+  });
+};
+
+window.copySubKey = function() {
+  var keyEl = document.getElementById('subLicenseWrap').querySelector('.portal-license');
+  var btn = document.getElementById('subLicenseWrap').querySelector('.portal-copy-btn');
+  if (keyEl) {
+    navigator.clipboard.writeText(keyEl.textContent).then(function() {
+      btn.textContent = 'COPIED';
+      setTimeout(function() { btn.textContent = 'COPY'; }, 2000);
+    });
+  }
+};
 
 // Section navigation
 document.addEventListener('DOMContentLoaded', function() {
@@ -149,20 +295,20 @@ function loadSettings(uid, settings) {
 }
 
 function saveSettings() {
-  var user = auth.currentUser;
-  if (!user) return;
-  var settings = JSON.parse(localStorage.getItem('0xrex_settings_' + user.uid) || '{}');
-  settings.theme = document.getElementById('settingTheme').value;
-  settings.currency = document.getElementById('settingCurrency').value;
-  settings.notifications = document.getElementById('settingNotifications').checked;
-  settings.risk = document.getElementById('settingRisk').value;
-  settings.maxPositions = document.getElementById('settingPositions').value;
-  settings.interval = document.getElementById('settingInterval').value;
-  localStorage.setItem('0xrex_settings_' + user.uid, JSON.stringify(settings));
+  if (!_currentUser) return;
+  var uid = _currentUser.uid;
+  var data = {
+    theme: document.getElementById('settingTheme').value,
+    currency: document.getElementById('settingCurrency').value,
+    notifications: document.getElementById('settingNotifications').checked,
+    risk: document.getElementById('settingRisk').value,
+    maxPositions: document.getElementById('settingPositions').value,
+    interval: document.getElementById('settingInterval').value
+  };
+  saveUserData(uid, data);
 }
 
 function populateTradingData() {
-  // Placeholder data — will connect to FastAPI WebSocket later
   var positions = [
     { asset: 'BTC/USDT', side: 'LONG', entry: '$67,432', current: '$68,190', pnl: '+$758', sl: '$65,800 / $72,000' },
     { asset: 'ETH/USDT', side: 'LONG', entry: '$3,421', current: '$3,388', pnl: '-$33', sl: '$3,280 / $3,650' },
@@ -203,7 +349,6 @@ function populateTradingData() {
     }).join('');
   }
 
-  // Metrics
   var nav = document.getElementById('dashNav');
   var pnl = document.getElementById('dashPnl');
   var win = document.getElementById('dashWin');
