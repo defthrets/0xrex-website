@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>0xRex — Autonomous Crypto Trading Agent</title>
+  <meta name="description" content="Autonomous crypto trading agent using CryptoCred TA and GCR contrarian principles. 100+ assets, 9 exchanges, 24/7 autonomous operation.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9670;</text></svg>">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-brand">
+      <div class="logo-hex-icon">
+        <div class="hex-outer">
+          <div class="hex-inner">0x</div>
+        </div>
+      </div>
+      <h1><span class="logo-0x">0x</span>Rex</h1>
+      <span class="version">v2.0</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="#features">Modules</a></li>
+      <li><a href="#exchanges">Exchanges</a></li>
+      <li><a href="#download">Download</a></li>
+    </ul>
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="grid-overlay"></div>
+      <div class="radial-glow"></div>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-logo-block animate-in">
+          <div class="hero-hex-logo">
+            <div class="hex-glow-ring"></div>
+            <span class="hero-hex-text">0x</span>
+          </div>
+        </div>
+        <div class="hero-tag animate-in">
+          <span class="pulse"></span>
+          <span class="hero-tag-text">
+            <span class="tag-prefix">[SYS]</span>
+            <span class="tag-typing" id="heroTagTyping"></span>
+            <span class="tag-cursor">&#9608;</span>
+          </span>
+        </div>
+        <div class="hero-status-bar animate-in">
+          <span class="hsb-item"><span class="hsb-dot hsb-dot--green"></span>AGENT ONLINE</span>
+          <span class="hsb-sep">|</span>
+          <span class="hsb-item"><span class="hsb-dot hsb-dot--green"></span>SCANNERS ACTIVE</span>
+          <span class="hsb-sep">|</span>
+          <span class="hsb-item"><span class="hsb-dot hsb-dot--amber"></span>SIGNAL ENGINE ARMED</span>
+          <span class="hsb-sep">|</span>
+          <span class="hsb-item"><span class="hsb-dot hsb-dot--green"></span>RISK MATRIX NOMINAL</span>
+        </div>
+        <h1 class="animate-in animate-delay-1">
+          <span class="gradient"><span class="logo-0x">0x</span>Rex</span><br>
+          Autonomous Crypto Trading Agent
+        </h1>
+        <p class="hero-desc animate-in animate-delay-2">
+          An autonomous crypto trading engine that never sleeps. It scans 100+ digital assets across
+          9 exchanges, generates signals using CryptoCred TA and GCR contrarian principles, executes trades,
+          and manages risk — all on its own. <strong style="color:var(--green);">24/7 Autonomous</strong> — paper or live mode.
+        </p>
+        <div class="hero-actions animate-in animate-delay-3">
+          <a href="#download" class="btn btn-primary">
+            &#11015; Download Now
+          </a>
+          <a href="#features" class="btn btn-secondary">
+            &#9632; See Modules
+          </a>
+        </div>
+        <div class="hero-stats animate-in animate-delay-4">
+          <div class="hero-stat">
+            <div class="value">7</div>
+            <div class="label">Core Modules</div>
+          </div>
+          <div class="hero-stat">
+            <div class="value">100+</div>
+            <div class="label">Crypto Assets</div>
+          </div>
+          <div class="hero-stat">
+            <div class="value">9</div>
+            <div class="label">Exchange Integrations</div>
+          </div>
+          <div class="hero-stat">
+            <div class="value">24/7</div>
+            <div class="label">Autonomous Ops</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ops Radar + Live Log -->
+  <section style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:3rem 0;">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">// Live Operations</span>
+        <h2>0xRex Ops Center</h2>
+        <p>Real-time signal radar and autonomous operations feed — always scanning, always trading.</p>
+      </div>
+      <div class="ops-demo-grid">
+        <!-- Radar -->
+        <div class="ops-demo-radar">
+          <div class="ops-demo-radar-wrap">
+            <div class="demo-radar-telemetry" id="demoRadarTelem"></div>
+            <div class="demo-radar-scanline"></div>
+            <svg class="demo-radar-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="55" fill="none" stroke="rgba(0,255,136,0.1)" stroke-width="0.5"/>
+              <circle cx="60" cy="60" r="40" fill="none" stroke="rgba(0,255,136,0.08)" stroke-width="0.5"/>
+              <circle cx="60" cy="60" r="25" fill="none" stroke="rgba(0,255,136,0.06)" stroke-width="0.5"/>
+              <circle cx="60" cy="60" r="10" fill="none" stroke="rgba(0,255,136,0.05)" stroke-width="0.5"/>
+              <line x1="60" y1="2" x2="60" y2="118" stroke="rgba(0,255,136,0.06)" stroke-width="0.5"/>
+              <line x1="2" y1="60" x2="118" y2="60" stroke="rgba(0,255,136,0.06)" stroke-width="0.5"/>
+              <line x1="20" y1="20" x2="100" y2="100" stroke="rgba(0,255,136,0.03)" stroke-width="0.3" stroke-dasharray="3,8"/>
+              <line x1="100" y1="20" x2="20" y2="100" stroke="rgba(0,255,136,0.03)" stroke-width="0.3" stroke-dasharray="3,8"/>
+              <path class="demo-radar-beam" d="M60,60 L60,5 A55,55 0 0,1 107,35 Z" fill="url(#demoRadarGrad)"/>
+              <g class="demo-blips">
+                <circle cx="42" cy="30" r="2" class="demo-blip demo-blip--green"/>
+                <circle cx="78" cy="45" r="2" class="demo-blip demo-blip--green" style="animation-delay:0.8s"/>
+                <circle cx="35" cy="70" r="2" class="demo-blip demo-blip--amber" style="animation-delay:1.6s"/>
+                <circle cx="85" cy="75" r="2" class="demo-blip demo-blip--green" style="animation-delay:2.2s"/>
+                <circle cx="55" cy="48" r="2" class="demo-blip demo-blip--green" style="animation-delay:0.4s"/>
+                <circle cx="70" cy="82" r="2" class="demo-blip demo-blip--red" style="animation-delay:1.2s"/>
+                <circle cx="28" cy="52" r="2" class="demo-blip demo-blip--green" style="animation-delay:2.8s"/>
+                <circle cx="90" cy="55" r="2" class="demo-blip demo-blip--amber" style="animation-delay:1.8s"/>
+              </g>
+              <circle cx="60" cy="60" r="2.5" fill="#00ff88" opacity="0.9" class="demo-center-dot"/>
+              <circle cx="60" cy="60" r="4" fill="none" stroke="#00ff88" stroke-width="0.5" opacity="0.4"/>
+              <defs>
+                <radialGradient id="demoRadarGrad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="rgba(0,255,136,0.18)"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </radialGradient>
+              </defs>
+            </svg>
+            <div class="demo-radar-label">
+              <span class="demo-radar-dot">&#9679;</span>
+              SCANNING CRYPTO
+            </div>
+          </div>
+        </div>
+        <!-- Live Ops Log -->
+        <div class="ops-demo-terminal">
+          <div class="ops-demo-term-header">
+            <span class="ops-demo-dot" style="background:#ef4444;"></span>
+            <span class="ops-demo-dot" style="background:#eab308;"></span>
+            <span class="ops-demo-dot" style="background:#00ff88;"></span>
+            <span class="ops-demo-term-title">LIVE OPS LOG</span>
+          </div>
+          <div class="ops-demo-term-body" id="demoOpsLog"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features">
+    <div class="container">
+      <div class="features-section-header">
+        <div class="section-header">
+          <span class="section-label">// System Modules</span>
+          <h2>7 Integrated Trading Modules</h2>
+          <p>Each module operates autonomously while sharing intelligence across the agent framework.</p>
+        </div>
+      </div>
+      <div class="features-grid">
+        <div class="card animate-in">
+          <span class="feature-tag">Module 01</span>
+          <div class="card-icon">&#9670;</div>
+          <h3>Autonomous Agent</h3>
+          <p>Core trading loop with configurable cycle intervals. Auto-executes BUY/SELL signals in paper mode, monitors SL/TP every 30 seconds, and broadcasts results via WebSocket.</p>
+        </div>
+        <div class="card animate-in animate-delay-1">
+          <span class="feature-tag">Module 02</span>
+          <div class="card-icon">&#9889;</div>
+          <h3>Signal Generator</h3>
+          <p>Multi-timeframe technical analysis — RSI, MACD, Bollinger Bands, ATR, trend detection. Confidence-scored signals filtered by minimum threshold (default 60%).</p>
+        </div>
+        <div class="card animate-in animate-delay-2">
+          <span class="feature-tag">Module 03</span>
+          <div class="card-icon">&#9888;</div>
+          <h3>Risk Engine</h3>
+          <p>Correlation-aware position sizing, risk parity weights, circuit breaker protection. Auto-closes positions on SL/TP hits. Portfolio health reports and drawdown tracking.</p>
+        </div>
+        <div class="card animate-in animate-delay-3">
+          <span class="feature-tag">Module 04</span>
+          <div class="card-icon">&#9654;</div>
+          <h3>Market Scanner</h3>
+          <p>Scans 100+ crypto tickers across all sectors — Layer 1, Layer 2, DeFi, AI tokens, meme coins, and infrastructure. Real-time price feeds with opportunity detection.</p>
+        </div>
+        <div class="card animate-in">
+          <span class="feature-tag">Module 05</span>
+          <div class="card-icon">&#9830;</div>
+          <h3>Regime Engine</h3>
+          <p>Classifies market conditions into 5 regimes — Bull Trend, Bear Trend, Accumulation, Distribution, Ranging. Adapts strategy allocation based on current regime.</p>
+        </div>
+        <div class="card animate-in animate-delay-1">
+          <span class="feature-tag">Module 06</span>
+          <div class="card-icon">&#9634;</div>
+          <h3>Paper Trading</h3>
+          <p>Risk-free simulated trading with $100K+ starting capital. Full portfolio tracking, equity curve history, P&L calculations, and trade persistence.</p>
+        </div>
+        <div class="card animate-in animate-delay-2">
+          <span class="feature-tag">Module 07</span>
+          <div class="card-icon">&#8593;</div>
+          <h3>Backtest Lab</h3>
+          <p>Walk-forward optimization engine with configurable train/test windows. Period-by-period performance analysis and strategy validation before live deployment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-value">100+</div>
+          <div class="stat-label">Tracked Assets</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">5</div>
+          <div class="stat-label">Market Regimes</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">9</div>
+          <div class="stat-label">Exchange Integrations</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">30s</div>
+          <div class="stat-label">SL/TP Check Interval</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exchange Integrations -->
+  <section id="exchanges" style="background:var(--bg-secondary);border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">// Exchange Connections</span>
+        <h2>9 Supported Exchanges</h2>
+        <p>Connect your exchange account and start trading crypto autonomously.</p>
+      </div>
+      <div class="broker-grid">
+        <div class="broker-item">
+          <span class="broker-tag">BN</span>
+          <div><strong>Binance</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">Spot, Futures, Margin</span></div>
+        </div>
+        <div class="broker-item">
+          <span class="broker-tag">CB</span>
+          <div><strong>Coinbase</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">Spot, Advanced Trade</span></div>
+        </div>
+        <div class="broker-item">
+          <span class="broker-tag">KR</span>
+          <div><strong>Kraken</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">Spot, Futures</span></div>
+        </div>
+        <div class="broker-item">
+          <span class="broker-tag">BY</span>
+          <div><strong>Bybit</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">Derivatives, Spot</span></div>
+        </div>
+        <div class="broker-item">
+          <span class="broker-tag">OK</span>
+          <div><strong>OKX</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">Spot, Perps, Options</span></div>
+        </div>
+        <div class="broker-item">
+          <span class="broker-tag">KC</span>
+          <div><strong>KuCoin</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">Spot, Futures</span></div>
+        </div>
+        <div class="broker-item">
+          <span class="broker-tag">GT</span>
+          <div><strong>Gate.io</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">Spot, Perps</span></div>
+        </div>
+        <div class="broker-item">
+          <span class="broker-tag">DX</span>
+          <div><strong>dYdX</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">Decentralized Perps</span></div>
+        </div>
+        <div class="broker-item">
+          <span class="broker-tag">HL</span>
+          <div><strong>Hyperliquid</strong><br><span style="font-size:0.8rem;color:var(--text-muted);">On-chain Orderbook</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trading Principles -->
+  <section id="principles" style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">// Core Strategy</span>
+        <h2>CryptoCred + GCR Ultra Ruleset</h2>
+        <p>Every decision is grounded in proven crypto-native trading methodologies.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3 style="color:var(--green);">&#9650; Bull Trend</h3>
+          <p>Momentum-driven entries on pullbacks. Look for higher highs, higher lows. RSI bouncing off 40-50 zone. MACD above zero line. Size up on high-confidence breakouts.</p>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--cyan);">&#9670; Accumulation</h3>
+          <p>Range-bound price action after a downtrend. Volume declining, volatility compressing. Build positions slowly on support tests. GCR contrarian principle: buy when others are bored.</p>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--yellow);">&#9660; Distribution</h3>
+          <p>Range-bound after an uptrend. Smart money distributing to retail. Reduce exposure, tighten stops. Watch for divergences between price and momentum indicators.</p>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--red);">&#9660; Bear Trend</h3>
+          <p>Lower highs, lower lows confirmed. RSI rejecting at 50-60. Short signals only on rallies into resistance. GCR contrarian: "Everyone is bullish? I'm out."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Asset Universe -->
+  <section id="assets">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">// Asset Universe</span>
+        <h2>100+ Tracked Crypto Assets</h2>
+        <p>Covering every major sector in the crypto ecosystem.</p>
+      </div>
+      <div class="asset-universe-grid">
+        <div class="asset-sector">
+          <h4>Layer 1</h4>
+          <div class="asset-ticker-row">
+            <span>BTC</span><span>ETH</span><span>SOL</span><span>ADA</span><span>AVAX</span><span>DOT</span><span>ATOM</span><span>NEAR</span><span>SUI</span><span>APT</span><span>SEI</span><span>ICP</span><span>ALGO</span><span>HBAR</span><span>XLM</span>
+          </div>
+        </div>
+        <div class="asset-sector">
+          <h4>Layer 2</h4>
+          <div class="asset-ticker-row">
+            <span>MATIC</span><span>ARB</span><span>OP</span><span>IMX</span><span>MANTA</span><span>STRK</span><span>ZK</span><span>METIS</span>
+          </div>
+        </div>
+        <div class="asset-sector">
+          <h4>DeFi</h4>
+          <div class="asset-ticker-row">
+            <span>UNI</span><span>AAVE</span><span>MKR</span><span>SNX</span><span>CRV</span><span>COMP</span><span>SUSHI</span><span>1INCH</span><span>DYDX</span><span>GMX</span><span>PENDLE</span><span>JUP</span>
+          </div>
+        </div>
+        <div class="asset-sector">
+          <h4>AI Tokens</h4>
+          <div class="asset-ticker-row">
+            <span>FET</span><span>RNDR</span><span>AGIX</span><span>OCEAN</span><span>TAO</span><span>WLD</span><span>AKT</span><span>AR</span>
+          </div>
+        </div>
+        <div class="asset-sector">
+          <h4>Meme</h4>
+          <div class="asset-ticker-row">
+            <span>DOGE</span><span>SHIB</span><span>PEPE</span><span>FLOKI</span><span>BONK</span><span>WIF</span><span>MEME</span>
+          </div>
+        </div>
+        <div class="asset-sector">
+          <h4>Infrastructure</h4>
+          <div class="asset-ticker-row">
+            <span>LINK</span><span>GRT</span><span>FIL</span><span>THETA</span><span>STX</span><span>INJ</span><span>TIA</span><span>PYTH</span><span>JTO</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section id="tech-stack" style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">// Technology Stack</span>
+        <h2>Built With Precision</h2>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <div class="tech-icon">&gt;_</div>
+          <div><div class="tech-name">Python 3.13</div><div class="tech-desc">Core engine</div></div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">&#9889;</div>
+          <div><div class="tech-name">asyncio</div><div class="tech-desc">Async runtime</div></div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">&#8644;</div>
+          <div><div class="tech-name">aiohttp</div><div class="tech-desc">HTTP + WebSocket</div></div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">&#8721;</div>
+          <div><div class="tech-name">NumPy</div><div class="tech-desc">Numerical analysis</div></div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">$</div>
+          <div><div class="tech-name">yfinance</div><div class="tech-desc">Market data</div></div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">&#9670;</div>
+          <div><div class="tech-name">loguru</div><div class="tech-desc">Logging framework</div></div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">&#9919;</div>
+          <div><div class="tech-name">cryptography</div><div class="tech-desc">API key encryption</div></div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">&#9635;</div>
+          <div><div class="tech-name">PyInstaller</div><div class="tech-desc">Desktop builds</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Section -->
+  <section id="download">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">// Download</span>
+        <h2>Get 0xRex</h2>
+        <p style="font-size:1.1rem;">Self-contained Windows executable. No Python installation required. Extract, configure, and run.</p>
+      </div>
+      <div class="download-grid">
+        <div class="download-card">
+          <div class="download-icon">&#9632;</div>
+          <h3>Windows</h3>
+          <p>Windows 10/11 (64-bit)</p>
+          <a href="#" class="btn btn-primary btn-sm">&#11015; Download</a>
+          <span class="download-meta">v2.0 -- Self-contained .exe</span>
+        </div>
+      </div>
+      <div class="download-note">
+        <p>* Paper trading runs immediately with simulated capital. Live trading requires exchange API keys and manual trade approval for every execution.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="cta-text" style="text-align:center;">
+        <span class="section-label">// Ready to Deploy</span>
+        <h2>Let 0xRex Trade For You</h2>
+        <p>100+ crypto assets. 9 exchanges. CryptoCred TA + GCR contrarian intelligence. Fully autonomous, 24/7.</p>
+        <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem;flex-wrap:wrap;">
+          <a href="#download" class="btn btn-primary">&#11015; Download Now</a>
+          <a href="#features" class="btn btn-secondary">&#9632; See Modules</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-left">
+          <p><span class="logo-0x">0x</span>Rex Autonomous Crypto Trading Agent &copy; 2026</p>
+          <p style="margin-top:0.25rem;font-size:0.7rem;">Built on CryptoCred TA &amp; GCR Contrarian Principles</p>
+        </div>
+        <div class="footer-links">
+          <a href="#features">Modules</a>
+          <a href="#exchanges">Exchanges</a>
+          <a href="#download">Download</a>
+        </div>
+      </div>
+      <div class="footer-legal">
+        <a href="#" onclick="openLegalModal('privacy');return false">Privacy Policy</a>
+        <span class="footer-sep">|</span>
+        <a href="#" onclick="openLegalModal('terms');return false">Terms &amp; Conditions</a>
+        <span class="footer-sep">|</span>
+        <a href="#" onclick="openLegalModal('transparency');return false">Transparency Report</a>
+      </div>
+      <div class="footer-copy">&copy; 2026 0xRex. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- Legal Modal -->
+  <div class="legal-modal-overlay hidden" id="legalModalOverlay" onclick="if(event.target===this)closeLegalModal()">
+    <div class="legal-modal">
+      <div class="legal-modal-header">
+        <span class="legal-modal-title" id="legalModalTitle">Privacy Policy</span>
+        <button class="legal-modal-close" onclick="closeLegalModal()">&times;</button>
+      </div>
+      <div class="legal-modal-body" id="legalModalBody"></div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
