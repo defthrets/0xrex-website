@@ -13,7 +13,15 @@
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-brand">
-      <span class="cash3d" title="0xrex"><div class="cash3d-scene"><div class="cash3d-rotator"><div class="cash3d-face cash3d-front"><div class="bill-face"><div class="bill-border"></div><div class="bill-oval"></div><span class="bill-dollar">&#8383;</span><span class="bill-100">0x</span></div></div><div class="cash3d-face cash3d-back"><div class="bill-face"><div class="bill-border"></div><div class="bill-oval"></div><span class="bill-dollar">&#8383;</span><span class="bill-100">0x</span></div></div><div class="cash3d-face cash3d-right"><div class="stack-edge"></div></div><div class="cash3d-face cash3d-left"><div class="stack-edge"></div></div><div class="cash3d-face cash3d-top"><div class="stack-edge-h"></div></div><div class="cash3d-face cash3d-bottom"><div class="stack-edge-h"></div></div><div class="band-face band-front"></div><div class="band-face band-back"></div><div class="band-face band-top"></div><div class="band-face band-bottom"></div></div></div></span>
+      <div class="coin3d-nav">
+        <div class="coin3d-scene coin3d-scene--sm">
+          <div class="coin3d-rotator">
+            <div class="coin3d-face coin3d-front"><div class="coin-inner"><span class="coin-symbol">&#8383;</span><span class="coin-ring"></span></div></div>
+            <div class="coin3d-face coin3d-back"><div class="coin-inner coin-inner-back"><span class="coin-symbol-back">&#8383;</span><span class="coin-ring"></span></div></div>
+            <div class="coin3d-edge-wrap" id="coinEdgeNav"></div>
+          </div>
+        </div>
+      </div>
       <h1><span class="logo-0x">0x</span>rex</h1>
       <span class="version">v2.0</span>
     </div>
@@ -42,22 +50,9 @@
                   <div class="coin-inner"><span class="coin-symbol">&#8383;</span><span class="coin-ring"></span></div>
                 </div>
                 <div class="coin3d-face coin3d-back">
-                  <div class="coin-inner"><span class="coin-symbol-back">0x</span><span class="coin-ring"></span></div>
+                  <div class="coin-inner coin-inner-back"><span class="coin-symbol-back">&#8383;</span><span class="coin-ring"></span></div>
                 </div>
-                <div class="coin3d-edge-wrap">
-                  <div class="coin3d-edge-seg" style="transform:rotateY(0deg) translateZ(60px)"></div>
-                  <div class="coin3d-edge-seg" style="transform:rotateY(15deg) translateZ(60px)"></div>
-                  <div class="coin3d-edge-seg" style="transform:rotateY(30deg) translateZ(60px)"></div>
-                  <div class="coin3d-edge-seg" style="transform:rotateY(45deg) translateZ(60px)"></div>
-                  <div class="coin3d-edge-seg" style="transform:rotateY(60deg) translateZ(60px)"></div>
-                  <div class="coin3d-edge-seg" style="transform:rotateY(75deg) translateZ(60px)"></div>
-                  <div class="coin3d-edge-seg" style="transform:rotateY(90deg) translateZ(60px)"></div>
-                  <div class="coin3d-edge-seg" style="transform:rotateY(105deg) translateZ(60px)"></div>
-                  <div class="coin3d-edge-seg" style="transform:rotateY(120deg) translateZ(60px)"></div>
-                  <div class="coin3d-edge-seg" style="transform:rotateY(135deg) translateZ(60px)"></div>
-                  <div class="coin3d-edge-seg" style="transform:rotateY(150deg) translateZ(60px)"></div>
-                  <div class="coin3d-edge-seg" style="transform:rotateY(165deg) translateZ(60px)"></div>
-                </div>
+                <div class="coin3d-edge-wrap" id="coinEdge"></div>
               </div>
             </div>
           </div>
@@ -431,7 +426,7 @@
   <section id="principles" style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
     <div class="container">
       <div class="section-header">
-        <img src="assets/rex/rex-trading.png" alt="Rex trading" class="rex-mascot" style="max-width:180px;margin:0 auto 1rem;">
+        <img src="assets/rex/rex-rich.png" alt="Rex made it" class="rex-mascot" style="max-width:180px;margin:0 auto 1rem;">
         <span class="section-label">// Core Strategy</span>
         <h2>CryptoCred + GCR Ultra Ruleset</h2>
         <p>Every decision is grounded in proven crypto-native trading methodologies.</p>
@@ -570,9 +565,9 @@
     <div class="container">
       <div class="section-header">
         <img src="assets/rex/rex-broke.png" alt="Rex needs 0xrex" class="rex-mascot" style="max-width:180px;margin:0 auto 1rem;">
-        <span class="section-label">// Download</span>
-        <h2>Get 0xrex</h2>
-        <p style="font-size:1.1rem;"><strong style="color:var(--green);">Free</strong> to download and use.<br>Self-contained Windows executable. No Python installation required. Extract, configure, and run.</p>
+        <span class="section-label">// Ready to Deploy</span>
+        <h2>Let 0xrex Trade For You</h2>
+        <p style="font-size:1.1rem;">1,000+ crypto assets. 9 exchanges. CryptoCred TA + GCR contrarian intelligence. Fully autonomous, 24/7. <strong style="color:var(--green);">Free.</strong></p>
       </div>
       <div class="download-grid">
         <div class="download-card">
@@ -585,24 +580,6 @@
       </div>
       <div class="download-note">
         <p>* Paper trading runs immediately with simulated capital. Live trading requires exchange API keys and manual trade approval for every execution.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section">
-    <div class="container" style="position:relative;z-index:1;">
-      <div class="cta-with-rex">
-        <img src="assets/rex/rex-rich.png" alt="Rex made it" class="rex-mascot rex-cta animate-in">
-        <div class="cta-text">
-          <span class="section-label">// Ready to Deploy</span>
-          <h2>Let 0xrex Trade For You</h2>
-          <p>1,000+ crypto assets. 9 exchanges. CryptoCred TA + GCR contrarian intelligence. Fully autonomous, 24/7. <strong style="color:var(--green);">Free.</strong></p>
-          <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem;flex-wrap:wrap;">
-            <a href="#download" class="btn btn-primary">&#8595; Download Now</a>
-            <a href="#features" class="btn btn-secondary">&#9632; See Modules</a>
-          </div>
-        </div>
       </div>
     </div>
   </section>
