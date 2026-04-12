@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "0xrex-site",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "3000", "C:/Users/mmidd/0xrex-website"],
+      "port": 3000
+    }
+  ]
+}
