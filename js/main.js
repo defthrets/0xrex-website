@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!el) return;
   const lines = [
     'AGENT ONLINE -- AUTONOMOUS TRADING ACTIVATED',
-    'SCANNING 100+ CRYPTO ASSETS...',
+    'SCANNING 1,000+ CRYPTO ASSETS...',
     'SIGNAL ENGINE ARMED -- 9 EXCHANGES CONNECTED',
     'CRYPTOCRED TA + GCR RULESET ENGAGED',
     'RISK MATRIX NOMINAL -- CIRCUIT BREAKERS SET',
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const lines = [
     'SYS.INIT 0x4F2A OK', 'WS.LINK CONNECTED',
-    'SCAN CRYPTO — 100+ ASSETS', 'RSI CALC BTC 34.2',
+    'SCAN CRYPTO — 1,000+ ASSETS', 'RSI CALC BTC 34.2',
     'SIG BUY ETH 0.82', 'RISK CHK NOMINAL',
     'RGM BULL DETECTED', 'NET.PING 8ms',
     'ORD FILL 0.5 BTC @ 67432', 'CIRC.BRK ARMED',
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const entries = [
     { cmd: 'SYS.BOOT', msg: '0xrex agent initialising...' },
     { cmd: 'WS.LINK', msg: 'WebSocket connected to Binance' },
-    { cmd: 'MKT.SCAN', msg: 'Loading 100+ crypto assets...' },
+    { cmd: 'MKT.SCAN', msg: 'Loading 1,000+ crypto assets...' },
     { cmd: 'RGM.CALC', msg: 'Regime: BULL TREND -- momentum rising' },
     { cmd: 'SIG.GEN', msg: 'BTC/USDT -- BUY signal -- confidence 0.82' },
     { cmd: 'SIG.GEN', msg: 'DOGE/USDT -- HOLD -- confidence 0.48', cls: 'warn' },
