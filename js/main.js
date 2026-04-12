@@ -1,12 +1,17 @@
 // -- 0xrex Website -- Shared JavaScript --
 
-// Cursor-following gradient
+// Cursor trail particles
 (function() {
-  const grad = document.querySelector('.cursor-gradient');
-  if (!grad) return;
+  let throttle = 0;
   document.addEventListener('mousemove', (e) => {
-    grad.style.setProperty('--mouse-x', e.clientX + 'px');
-    grad.style.setProperty('--mouse-y', e.clientY + 'px');
+    if (Date.now() - throttle < 40) return;
+    throttle = Date.now();
+    const p = document.createElement('div');
+    p.className = 'cursor-particle';
+    p.style.left = (e.clientX - 2) + 'px';
+    p.style.top = (e.clientY - 2) + 'px';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 800);
   });
 })();
 
