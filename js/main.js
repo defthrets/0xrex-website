@@ -16,7 +16,7 @@
       p.style.top = (e.clientY - 1.5 + oy) + 'px';
       var dx = (Math.random() - 0.5) * 100;
       var dy = (Math.random() - 0.5) * 100 - 10;
-      var dur = 1.2 + Math.random() * 0.8;
+      var dur = 2.5 + Math.random() * 1.5;
       p.style.setProperty('--fly-x', dx + 'px');
       p.style.setProperty('--fly-y', dy + 'px');
       p.style.setProperty('--fly-dur', dur + 's');
