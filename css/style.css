@@ -275,6 +275,58 @@ section { padding: 6rem 0; }
 
 .btn-sm { padding: 0.5rem 1.25rem; font-size: 0.7rem; }
 
+/* -- Download Button (fancy animated) -- */
+.btn-download {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #f59e0b 100%);
+  color: var(--bg-primary);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(245,158,11,0.3), 0 0 60px rgba(245,158,11,0.1);
+  animation: downloadPulse 3s ease-in-out infinite;
+  z-index: 1;
+}
+.btn-download::before {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0) 20%, rgba(255,220,130,0.6) 50%, rgba(255,255,255,0) 80%, transparent);
+  z-index: -1;
+  border-radius: 4px;
+  animation: borderGlow 3s linear infinite;
+}
+.btn-download::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  animation: shimmerSweep 4s ease-in-out infinite;
+  z-index: 2;
+  pointer-events: none;
+}
+.btn-download:hover {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #fbbf24 100%);
+  box-shadow: 0 0 30px rgba(245,158,11,0.5), 0 0 80px rgba(245,158,11,0.2), 0 4px 20px rgba(245,158,11,0.3);
+  transform: translateY(-3px) scale(1.02);
+  color: var(--bg-primary);
+}
+.btn-download:hover::after {
+  animation: shimmerSweep 1.5s ease-in-out infinite;
+}
+@keyframes downloadPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(245,158,11,0.3), 0 0 60px rgba(245,158,11,0.1); }
+  50% { box-shadow: 0 0 30px rgba(245,158,11,0.5), 0 0 80px rgba(245,158,11,0.15); }
+}
+@keyframes shimmerSweep {
+  0% { left: -100%; }
+  50%, 100% { left: 200%; }
+}
+@keyframes borderGlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* -- Cards -- */
 .card {
   background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
