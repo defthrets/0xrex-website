@@ -163,14 +163,21 @@ function updateTierUI(isPro, licenseKey) {
   }
 }
 
+// ── Payment Configuration ──────────────────────────────────
+// Replace these with your real keys/URLs:
+var STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/YOUR_PAYMENT_LINK_HERE';
+var PAYPAL_CLIENT_ID    = 'YOUR_PAYPAL_CLIENT_ID_HERE';
+var PAYPAL_ME_LINK      = 'https://paypal.me/YOUR_PAYPAL_ME/29';
+
 // Purchase flow
 window.startPurchase = function() {
   if (!_currentUser) return;
   var modal = document.getElementById('purchaseModal');
-  var step1 = document.getElementById('purchaseStep1');
-  var step2 = document.getElementById('purchaseStep2');
-  step1.classList.remove('hidden');
-  step2.classList.add('hidden');
+  document.getElementById('purchaseStep1').classList.remove('hidden');
+  document.getElementById('purchaseStep2').classList.add('hidden');
+  document.getElementById('purchaseStep3').classList.add('hidden');
+  // Reset to card tab
+  switchPayTab('stripe', document.querySelector('.pay-tab[data-method="stripe"]'));
   modal.classList.remove('hidden');
 };
 
@@ -178,36 +185,101 @@ window.closePurchase = function() {
   document.getElementById('purchaseModal').classList.add('hidden');
 };
 
-window.confirmPurchase = async function() {
-  if (!_currentUser) return;
-  var btn = document.getElementById('purchaseConfirmBtn');
-  btn.textContent = 'Processing...';
-  btn.disabled = true;
+window.switchPayTab = function(method, btn) {
+  document.querySelectorAll('.pay-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.pay-panel').forEach(function(p) { p.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  var panel = document.getElementById(
+    method === 'stripe' ? 'payStripe' :
+    method === 'paypal' ? 'payPaypal' : 'payCrypto'
+  );
+  if (panel) panel.classList.add('active');
+};
 
+// Activate PRO (shared by all payment methods)
+async function activatePro(paymentMethod, txRef) {
+  if (!_currentUser) return;
   var uid = _currentUser.uid;
   var licenseKey = generateLicenseKey(uid);
+
+  // Show processing step
+  document.getElementById('purchaseStep1').classList.add('hidden');
+  document.getElementById('purchaseStep2').classList.remove('hidden');
+  document.getElementById('purchaseStep3').classList.add('hidden');
 
   // Save to Firestore + localStorage
   await saveUserData(uid, {
     tier: 'pro',
     licenseKey: licenseKey,
-    upgradedAt: new Date().toISOString()
+    upgradedAt: new Date().toISOString(),
+    paymentMethod: paymentMethod,
+    paymentRef: txRef || null
   });
 
   _userData = Object.assign(_userData || {}, { tier: 'pro', licenseKey: licenseKey });
 
-  // Show key
-  document.getElementById('purchaseKeyDisplay').textContent = licenseKey;
+  // Brief delay for visual feedback
+  await new Promise(function(r) { setTimeout(r, 1500); });
 
-  // Switch to step 2
-  document.getElementById('purchaseStep1').classList.add('hidden');
-  document.getElementById('purchaseStep2').classList.remove('hidden');
+  // Show success + key
+  document.getElementById('purchaseKeyDisplay').textContent = licenseKey;
+  document.getElementById('purchaseStep2').classList.add('hidden');
+  document.getElementById('purchaseStep3').classList.remove('hidden');
 
   // Update all UI
   updateTierUI(true, licenseKey);
+}
 
-  btn.textContent = 'Activate PRO';
-  btn.disabled = false;
+// ── Stripe ──
+window.payWithStripe = function() {
+  // If Stripe Payment Link is configured, redirect to it
+  if (STRIPE_PAYMENT_LINK && !STRIPE_PAYMENT_LINK.includes('YOUR_')) {
+    // Append client_reference_id so we can match the payment to the user
+    var url = STRIPE_PAYMENT_LINK + '?client_reference_id=' + encodeURIComponent(_currentUser.uid);
+    window.open(url, '_blank');
+    // Show a "complete" button after redirect
+    var btn = document.getElementById('stripePayBtn');
+    btn.textContent = 'I\'ve completed payment';
+    btn.onclick = function() { activatePro('stripe', 'stripe-redirect'); };
+    return;
+  }
+  // Fallback: activate directly (for testing / before Stripe is set up)
+  activatePro('stripe', 'test-' + Date.now());
+};
+
+// ── PayPal ──
+window.payWithPaypal = function() {
+  if (PAYPAL_ME_LINK && !PAYPAL_ME_LINK.includes('YOUR_')) {
+    window.open(PAYPAL_ME_LINK, '_blank');
+    var btn = document.getElementById('paypalFallbackBtn');
+    btn.textContent = 'I\'ve completed payment';
+    btn.onclick = function() { activatePro('paypal', 'paypal-manual'); };
+    return;
+  }
+  // Fallback: activate directly
+  activatePro('paypal', 'test-' + Date.now());
+};
+
+// ── Crypto ──
+window.payWithCrypto = function() {
+  var txId = (document.getElementById('cryptoTxId')?.value || '').trim();
+  if (!txId) {
+    alert('Please paste your transaction hash/ID so we can verify your payment.');
+    return;
+  }
+  activatePro('crypto', txId);
+};
+
+window.copyCryptoAddr = function(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  navigator.clipboard.writeText(el.textContent).then(function() {
+    var btn = el.parentElement.querySelector('.portal-copy-btn');
+    if (btn) {
+      btn.textContent = 'COPIED';
+      setTimeout(function() { btn.textContent = 'COPY'; }, 2000);
+    }
+  });
 };
 
 window.copyPurchaseKey = function() {

@@ -292,7 +292,7 @@
     <div class="purchase-card">
       <button class="purchase-close" onclick="closePurchase()">&#10005;</button>
 
-      <!-- Step 1: Confirm -->
+      <!-- Step 1: Choose payment method -->
       <div id="purchaseStep1">
         <h2 class="purchase-title">Upgrade to PRO</h2>
         <div class="purchase-summary">
@@ -300,12 +300,88 @@
           <div class="purchase-row"><span>Price</span><span>$29.00 / month</span></div>
           <div class="purchase-row purchase-row--total"><span>Total today</span><span>$29.00 AUD</span></div>
         </div>
-        <p class="purchase-note">Payment processing coming soon. For now, click below to activate your PRO trial and receive your license key instantly.</p>
-        <button class="btn btn-primary purchase-btn" id="purchaseConfirmBtn" onclick="confirmPurchase()">Activate PRO</button>
+
+        <p class="purchase-method-label">Select payment method</p>
+        <div class="pay-tabs">
+          <button class="pay-tab active" data-method="stripe" onclick="switchPayTab('stripe',this)">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>
+            Card
+          </button>
+          <button class="pay-tab" data-method="paypal" onclick="switchPayTab('paypal',this)">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797H9.603c-.564 0-1.04.408-1.13.964L7.076 21.337zm9.283-15.6c-.046.297-.1.6-.165.912-1.07 5.49-4.686 7.381-9.321 7.381H5.166L3.665 23.1h3.41a.64.64 0 0 0 .631-.537l.027-.138.497-3.157.032-.175a.64.64 0 0 1 .631-.537h.399c2.576 0 4.593-.548 5.685-1.81.907-1.052 1.274-2.548 1.097-4.403-.053-.557-.16-1.058-.31-1.506z"/></svg>
+            PayPal
+          </button>
+          <button class="pay-tab" data-method="crypto" onclick="switchPayTab('crypto',this)">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M23.638 14.904c-1.602 6.43-8.113 10.34-14.542 8.736C2.67 22.05-1.244 15.525.362 9.105 1.962 2.67 8.475-1.243 14.9.358c6.43 1.605 10.342 8.115 8.738 14.546zm-6.35-4.613c.24-1.59-.974-2.45-2.634-3.02l.539-2.16-1.313-.328-.524 2.103c-.345-.086-.7-.167-1.053-.248l.528-2.116-1.313-.328-.538 2.159c-.285-.065-.565-.13-.837-.197l.001-.004-1.812-.452-.35 1.403s.974.223.954.237c.532.133.628.486.612.766l-.613 2.46c.037.009.084.023.136.044l-.138-.035-.86 3.447c-.065.161-.23.404-.602.312.013.02-.955-.238-.955-.238l-.652 1.502 1.71.427c.318.08.63.163.937.241l-.543 2.184 1.312.328.54-2.162c.358.097.706.187 1.046.273l-.537 2.153 1.313.328.543-2.18c2.24.424 3.926.253 4.635-1.774.57-1.637-.028-2.58-1.212-3.196.862-.199 1.512-.766 1.685-1.938z"/></svg>
+            Crypto
+          </button>
+        </div>
+
+        <!-- Stripe / Card -->
+        <div class="pay-panel active" id="payStripe">
+          <p class="pay-desc">Secure card payment via Stripe. You'll be redirected to complete checkout.</p>
+          <button class="btn btn-primary purchase-btn" id="stripePayBtn" onclick="payWithStripe()">
+            Pay $29.00 with Card
+          </button>
+          <p class="pay-secure">&#9679; Secured by Stripe. 256-bit encryption.</p>
+        </div>
+
+        <!-- PayPal -->
+        <div class="pay-panel" id="payPaypal">
+          <p class="pay-desc">Pay securely with your PayPal account or debit/credit card through PayPal.</p>
+          <div id="paypalButtonContainer"></div>
+          <button class="btn btn-primary purchase-btn paypal-fallback-btn" id="paypalFallbackBtn" onclick="payWithPaypal()">
+            Pay $29.00 with PayPal
+          </button>
+          <p class="pay-secure">&#9679; Protected by PayPal Buyer Protection.</p>
+        </div>
+
+        <!-- Crypto -->
+        <div class="pay-panel" id="payCrypto">
+          <p class="pay-desc">Send the equivalent of $29 AUD in crypto to one of the addresses below, then click confirm.</p>
+          <div class="crypto-options">
+            <div class="crypto-option">
+              <span class="crypto-label">BTC (Bitcoin)</span>
+              <div class="crypto-addr-row">
+                <code class="crypto-addr" id="cryptoBtcAddr">bc1q_YOUR_BTC_ADDRESS_HERE</code>
+                <button class="portal-copy-btn" onclick="copyCryptoAddr('cryptoBtcAddr')">COPY</button>
+              </div>
+            </div>
+            <div class="crypto-option">
+              <span class="crypto-label">ETH (Ethereum)</span>
+              <div class="crypto-addr-row">
+                <code class="crypto-addr" id="cryptoEthAddr">0x_YOUR_ETH_ADDRESS_HERE</code>
+                <button class="portal-copy-btn" onclick="copyCryptoAddr('cryptoEthAddr')">COPY</button>
+              </div>
+            </div>
+            <div class="crypto-option">
+              <span class="crypto-label">USDT (TRC-20)</span>
+              <div class="crypto-addr-row">
+                <code class="crypto-addr" id="cryptoUsdtAddr">T_YOUR_USDT_TRC20_ADDRESS</code>
+                <button class="portal-copy-btn" onclick="copyCryptoAddr('cryptoUsdtAddr')">COPY</button>
+              </div>
+            </div>
+          </div>
+          <div class="crypto-txid-row">
+            <label class="crypto-txid-label">Transaction ID (paste after sending)</label>
+            <input type="text" class="portal-input" id="cryptoTxId" placeholder="Paste your TX hash here">
+          </div>
+          <button class="btn btn-primary purchase-btn" id="cryptoConfirmBtn" onclick="payWithCrypto()">
+            I've Sent Payment -- Activate PRO
+          </button>
+          <p class="pay-secure">&#9679; Crypto payments are manually verified within 24h. Key issued instantly on confirmation.</p>
+        </div>
       </div>
 
-      <!-- Step 2: Success + Key -->
+      <!-- Step 2: Processing -->
       <div id="purchaseStep2" class="hidden">
+        <div class="purchase-spinner"></div>
+        <h2 class="purchase-title">Processing payment...</h2>
+        <p class="purchase-text">Hang tight. This won't take long.</p>
+      </div>
+
+      <!-- Step 3: Success + Key -->
+      <div id="purchaseStep3" class="hidden">
         <div class="purchase-success-icon">&#9670;</div>
         <h2 class="purchase-title">You're PRO now, legend!</h2>
         <p class="purchase-text">Your license key has been generated. Copy it and paste it into the 0xrex desktop app to unlock live trading.</p>
