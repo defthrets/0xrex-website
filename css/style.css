@@ -858,7 +858,26 @@ section { padding: 6rem 0; }
 .coin3d-scene--sm .coin3d-edge-seg { width: 3px; height: 4px; left: calc(50% - 1.5px); top: calc(50% - 2px); }
 
 /* Hero coin wrapper */
+.hero-coin-wrap {
+  position: relative;
+  display: inline-block;
+}
+.matrix-rain-canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(circle, rgba(0,0,0,0.8) 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,0.8) 30%, transparent 70%);
+}
 .hero-coin-glitch {
+  position: relative;
+  z-index: 1;
   display: inline-block;
   animation: coinFloat 4s ease-in-out infinite;
 }

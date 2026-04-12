@@ -553,4 +553,34 @@ document.addEventListener('DOMContentLoaded', () => {
       drawEquity();
     }, 2000);
   }
+
+  // === Matrix Rain behind coin ===
+  const mc = document.getElementById('matrixRain');
+  if (mc) {
+    const ctx = mc.getContext('2d');
+    const size = 280;
+    mc.width = size;
+    mc.height = size;
+    const fontSize = 10;
+    const cols = Math.floor(size / fontSize);
+    const drops = new Array(cols).fill(0).map(() => Math.random() * -size / fontSize);
+    const chars = '01₿$%&@#=+<>{}[]|/\\~';
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(12, 10, 8, 0.15)';
+      ctx.fillRect(0, 0, size, size);
+      ctx.fillStyle = 'rgba(245, 158, 11, 0.35)';
+      ctx.font = fontSize + 'px monospace';
+      for (var i = 0; i < cols; i++) {
+        var ch = chars[Math.floor(Math.random() * chars.length)];
+        var x = i * fontSize;
+        var y = drops[i] * fontSize;
+        ctx.fillStyle = Math.random() > 0.5 ? 'rgba(245, 158, 11, 0.3)' : 'rgba(34, 197, 94, 0.25)';
+        ctx.fillText(ch, x, y);
+        if (y > size && Math.random() > 0.97) drops[i] = 0;
+        drops[i] += 0.4 + Math.random() * 0.3;
+      }
+      requestAnimationFrame(drawMatrix);
+    }
+    drawMatrix();
+  }
 });
