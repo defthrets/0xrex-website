@@ -1,0 +1,202 @@
+/* ============================================
+   0xrex — Auth Page Styles
+   ============================================ */
+
+.auth-page {
+  min-height: calc(100vh - 64px);
+  padding-top: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem 2rem;
+}
+
+.auth-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 800px;
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* -- Brand Panel (left) -- */
+.auth-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(245,158,11,0.05) 100%);
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.auth-brand .rex-mascot {
+  max-width: 160px;
+  margin-bottom: 1.5rem;
+  animation: rexFloat 4s ease-in-out infinite;
+}
+.auth-brand h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+}
+.auth-brand p {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* -- Form Panel (right) -- */
+.auth-form-panel {
+  padding: 2.5rem 2rem;
+}
+
+/* -- Tabs -- */
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.auth-tab {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s;
+}
+.auth-tab:hover {
+  color: var(--text-secondary);
+}
+.auth-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* -- Form Groups -- */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.form-group label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.form-group input {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 0.75rem 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  outline: none;
+}
+.form-group input::placeholder {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+.form-group input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
+}
+
+/* -- Submit Button -- */
+.auth-submit {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+/* -- Divider -- */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.auth-divider span {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* -- Google Button -- */
+.auth-google {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.auth-google-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* -- Links -- */
+.auth-link {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  text-align: center;
+  transition: color 0.3s;
+}
+.auth-link:hover {
+  color: var(--accent);
+}
+
+/* -- Message -- */
+.auth-message {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-align: center;
+  min-height: 1.2em;
+  margin-top: 0.5rem;
+}
+.auth-message.error { color: var(--red); }
+.auth-message.success { color: var(--cyan); }
+
+/* -- Responsive -- */
+@media (max-width: 768px) {
+  .auth-container {
+    grid-template-columns: 1fr;
+  }
+  .auth-brand {
+    display: none;
+  }
+  .auth-form-panel {
+    padding: 2rem 1.5rem;
+  }
+}

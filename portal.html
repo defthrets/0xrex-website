@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>0xrex — Portal</title>
+  <meta name="description" content="Manage your 0xrex trading agent, subscription, and settings.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/portal.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9670;</text></svg>">
+</head>
+<body class="portal-body">
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-brand">
+      <div class="coin3d-nav">
+        <div class="coin3d-scene coin3d-scene--sm">
+          <div class="coin3d-rotator">
+            <div class="coin3d-face coin3d-front"><div class="coin-inner"><span class="coin-symbol">&#8383;</span><span class="coin-ring"></span></div></div>
+            <div class="coin3d-face coin3d-back"><div class="coin-inner coin-inner-back"><span class="coin-symbol-back">&#8383;</span><span class="coin-ring"></span></div></div>
+            <div class="coin3d-edge-wrap" id="coinEdgeNav"></div>
+          </div>
+        </div>
+      </div>
+      <h1><a href="index.html" style="text-decoration:none;color:inherit;"><span class="logo-0x">0x</span>rex</a></h1>
+      <span class="version">v2.0</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#features">Modules</a></li>
+      <li><a href="index.html#exchanges">Exchanges</a></li>
+      <li><a href="index.html#download">Download</a></li>
+      <li><a href="portal.html" class="nav-portal-link active">Portal</a></li>
+    </ul>
+    <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+  </nav>
+
+  <div class="portal-layout">
+    <!-- Sidebar -->
+    <aside class="portal-sidebar">
+      <div class="portal-user">
+        <div class="portal-avatar">&#9670;</div>
+        <span class="portal-email" id="portalEmail">Loading...</span>
+        <span class="portal-tier portal-tier--free" id="portalTier">FREE TIER</span>
+      </div>
+      <nav class="portal-nav">
+        <a href="#account" class="portal-nav-item active" data-section="account">Account</a>
+        <a href="#subscription" class="portal-nav-item" data-section="subscription">Subscription</a>
+        <a href="#settings" class="portal-nav-item" data-section="settings">App Settings</a>
+        <a href="#trading" class="portal-nav-item" data-section="trading">Live Trading</a>
+      </nav>
+      <button id="logoutBtn" class="btn btn-secondary btn-sm portal-logout">Logout</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="portal-main">
+
+      <!-- Account Overview -->
+      <section id="account" class="portal-section active">
+        <div class="portal-section-header">
+          <span class="section-label">// Account</span>
+          <h2>Account Overview</h2>
+        </div>
+        <div class="portal-cards">
+          <div class="portal-card">
+            <span class="dm-label">Email</span>
+            <span class="dm-value" id="accountEmail">--</span>
+          </div>
+          <div class="portal-card">
+            <span class="dm-label">Subscription</span>
+            <span class="dm-value" id="accountTier">Free</span>
+          </div>
+          <div class="portal-card">
+            <span class="dm-label">Member Since</span>
+            <span class="dm-value" id="accountCreated">--</span>
+          </div>
+        </div>
+        <div class="portal-card" style="margin-top:1.5rem;">
+          <span class="dm-label">License Key</span>
+          <div id="accountLicense">
+            <span style="color:var(--text-muted);">Loading...</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Subscription Management -->
+      <section id="subscription" class="portal-section">
+        <div class="portal-section-header">
+          <span class="section-label">// Subscription</span>
+          <h2>Subscription Management</h2>
+        </div>
+        <div class="portal-plans">
+          <div class="portal-plan-card portal-plan--current">
+            <div class="demo-badge demo-badge--cyan">CURRENT</div>
+            <h3>Free</h3>
+            <div class="portal-plan-price">$0</div>
+            <ul class="portal-plan-features">
+              <li>Paper trading only</li>
+              <li>3 assets max</li>
+              <li>Basic signals</li>
+              <li>Community support</li>
+            </ul>
+          </div>
+          <div class="portal-plan-card portal-plan--pro">
+            <div class="demo-badge demo-badge--green">PRO</div>
+            <h3>Pro</h3>
+            <div class="portal-plan-price">$29<span>/mo</span></div>
+            <ul class="portal-plan-features">
+              <li>Live trading mode</li>
+              <li>Unlimited assets</li>
+              <li>Advanced signals + Risk Engine</li>
+              <li>Priority support</li>
+              <li>All 9 exchanges</li>
+              <li>Unique license key</li>
+            </ul>
+            <button class="btn btn-primary">Upgrade to Pro</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- App Settings -->
+      <section id="settings" class="portal-section">
+        <div class="portal-section-header">
+          <span class="section-label">// Configuration</span>
+          <h2>App Settings</h2>
+        </div>
+        <div class="portal-settings-grid">
+          <div class="demo-panel">
+            <div class="demo-header"><h3>General</h3></div>
+            <div class="demo-body">
+              <div class="setting-row">
+                <span class="dm-label">Theme</span>
+                <select class="portal-select" id="settingTheme">
+                  <option>Terminal Dark</option>
+                  <option>Matrix Green</option>
+                </select>
+              </div>
+              <div class="setting-row">
+                <span class="dm-label">Base Currency</span>
+                <select class="portal-select" id="settingCurrency">
+                  <option>USDT</option>
+                  <option>USDC</option>
+                  <option>BTC</option>
+                </select>
+              </div>
+              <div class="setting-row">
+                <span class="dm-label">Notifications</span>
+                <label class="portal-toggle">
+                  <input type="checkbox" checked id="settingNotifications">
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="demo-panel">
+            <div class="demo-header"><h3>Trading Config</h3></div>
+            <div class="demo-body">
+              <div class="setting-row">
+                <span class="dm-label">Risk per Trade</span>
+                <input type="text" class="portal-input-sm" value="1%" id="settingRisk">
+              </div>
+              <div class="setting-row">
+                <span class="dm-label">Max Open Positions</span>
+                <input type="text" class="portal-input-sm" value="8" id="settingPositions">
+              </div>
+              <div class="setting-row">
+                <span class="dm-label">Scan Interval</span>
+                <select class="portal-select" id="settingInterval">
+                  <option>5 min</option>
+                  <option>15 min</option>
+                  <option selected>30 min</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="demo-panel">
+            <div class="demo-header"><h3>API Keys</h3></div>
+            <div class="demo-body">
+              <div class="setting-row">
+                <span class="dm-label">Exchange</span>
+                <select class="portal-select" id="settingExchange">
+                  <option>Binance</option>
+                  <option>Bybit</option>
+                  <option>Coinbase</option>
+                  <option>Kraken</option>
+                  <option>OKX</option>
+                </select>
+              </div>
+              <div class="setting-row" style="flex-direction:column;align-items:stretch;gap:0.4rem;">
+                <span class="dm-label">API Key</span>
+                <input type="password" class="portal-input" placeholder="Enter API key">
+              </div>
+              <div class="setting-row" style="flex-direction:column;align-items:stretch;gap:0.4rem;">
+                <span class="dm-label">API Secret</span>
+                <input type="password" class="portal-input" placeholder="Enter API secret">
+              </div>
+              <button class="btn btn-primary btn-sm" id="saveKeysBtn" style="margin-top:0.75rem;width:100%;">Save Keys</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live Trading Dashboard -->
+      <section id="trading" class="portal-section">
+        <div class="portal-section-header">
+          <span class="section-label">// Live Dashboard</span>
+          <h2>Trading Stats</h2>
+        </div>
+        <div class="portal-metrics-row">
+          <div class="portal-metric-card">
+            <span class="dm-label">Portfolio NAV</span>
+            <span class="dm-value dm-green" id="dashNav">$--</span>
+          </div>
+          <div class="portal-metric-card">
+            <span class="dm-label">Daily P&amp;L</span>
+            <span class="dm-value" id="dashPnl">$--</span>
+          </div>
+          <div class="portal-metric-card">
+            <span class="dm-label">Win Rate</span>
+            <span class="dm-value" id="dashWin">--%</span>
+          </div>
+          <div class="portal-metric-card">
+            <span class="dm-label">Open Positions</span>
+            <span class="dm-value" id="dashPositions">--</span>
+          </div>
+        </div>
+        <div class="demo-panel">
+          <div class="demo-header">
+            <span class="demo-badge demo-badge--cyan">LIVE</span>
+            <h3>Open Positions</h3>
+          </div>
+          <div class="demo-body">
+            <div class="portal-table">
+              <div class="portal-table-header">
+                <span>Asset</span><span>Side</span><span>Entry</span>
+                <span>Current</span><span>P&amp;L</span><span>SL / TP</span>
+              </div>
+              <div id="positionsBody" class="portal-table-body">
+                <div class="portal-table-empty">Connecting to trading system...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-panel" style="margin-top:1.5rem;">
+          <div class="demo-header">
+            <span class="demo-badge demo-badge--green">SIGNALS</span>
+            <h3>Recent Signals</h3>
+          </div>
+          <div class="demo-body">
+            <div id="recentSignals" class="portal-signals-list">
+              <div class="portal-table-empty">Awaiting signal feed...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-left">
+          <p><span class="logo-0x">0x</span>rex Autonomous Crypto Trading Agent &copy; 2026</p>
+          <p style="margin-top:0.25rem;font-size:0.7rem;">Built on CryptoCred TA &amp; GCR Contrarian Principles</p>
+        </div>
+        <div class="footer-links">
+          <a href="index.html#features">Modules</a>
+          <a href="index.html#exchanges">Exchanges</a>
+          <a href="index.html#download">Download</a>
+        </div>
+      </div>
+      <div class="footer-copy">&copy; 2026 0xrex. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script type="module" src="js/portal.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
