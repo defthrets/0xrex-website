@@ -29,13 +29,22 @@ onAuthStateChanged(auth, (user) => {
 });
 
 function generateLicenseKey(uid) {
-  var hash = 0;
-  for (var i = 0; i < uid.length; i++) {
-    hash = ((hash << 5) - hash) + uid.charCodeAt(i);
-    hash |= 0;
+  // Generate 3 separate hashes for full 12 hex chars of entropy
+  function fnv32(str, seed) {
+    var h = seed || 0x811c9dc5;
+    for (var i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 0x01000193);
+    }
+    return (h >>> 0);
   }
-  var hex = Math.abs(hash).toString(16).toUpperCase().padStart(12, '0');
-  return '0XREX-PRO-' + hex.slice(0,4) + '-' + hex.slice(4,8) + '-' + hex.slice(8,12);
+  var h1 = fnv32(uid, 0x811c9dc5);
+  var h2 = fnv32(uid, 0x62b821e3);
+  var h3 = fnv32(uid, 0xde4a9f10);
+  var seg1 = (h1 >>> 0).toString(16).toUpperCase().padStart(8, '0').slice(0, 4);
+  var seg2 = (h2 >>> 0).toString(16).toUpperCase().padStart(8, '0').slice(0, 4);
+  var seg3 = (h3 >>> 0).toString(16).toUpperCase().padStart(8, '0').slice(0, 4);
+  return '0XREX-PRO-' + seg1 + '-' + seg2 + '-' + seg3;
 }
 
 async function loadUserData(uid) {
@@ -378,8 +387,20 @@ function saveSettings() {
     notifications: document.getElementById('settingNotifications').checked,
     risk: document.getElementById('settingRisk').value,
     maxPositions: document.getElementById('settingPositions').value,
-    interval: document.getElementById('settingInterval').value
+    interval: document.getElementById('settingInterval').value,
+    exchange: document.getElementById('settingExchange').value
   };
+  // API keys saved to localStorage only (never to Firestore for security)
+  var apiKey = document.querySelector('#settings .portal-input[placeholder="Enter API key"]');
+  var apiSecret = document.querySelector('#settings .portal-input[placeholder="Enter API secret"]');
+  if (apiKey && apiKey.value) {
+    var localKeys = JSON.parse(localStorage.getItem('0xrex_apikeys_' + uid) || '{}');
+    localKeys[data.exchange] = {
+      key: apiKey.value,
+      secret: apiSecret ? apiSecret.value : ''
+    };
+    localStorage.setItem('0xrex_apikeys_' + uid, JSON.stringify(localKeys));
+  }
   saveUserData(uid, data);
 }
 

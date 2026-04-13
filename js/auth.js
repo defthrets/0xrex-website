@@ -80,20 +80,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Login
+  var loginBtn = loginForm.querySelector('button[type="submit"]');
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     var email = document.getElementById('loginEmail').value;
     var pass = document.getElementById('loginPassword').value;
     showMsg('Authenticating...', '');
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'AUTHENTICATING...';
     signInWithEmailAndPassword(auth, email, pass)
       .then(() => {
         localStorage.setItem('0xrex_logged_in', 'true');
         window.location.href = 'portal.html';
       })
-      .catch((err) => showMsg(mapError(err.code), 'error'));
+      .catch((err) => {
+        showMsg(mapError(err.code), 'error');
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'LOGIN';
+      });
   });
 
   // Signup
+  var signupBtn = signupForm.querySelector('button[type="submit"]');
   signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
     var email = document.getElementById('signupEmail').value;
@@ -104,12 +112,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     showMsg('Creating account...', '');
+    signupBtn.disabled = true;
+    signupBtn.textContent = 'CREATING ACCOUNT...';
     createUserWithEmailAndPassword(auth, email, pass)
       .then(() => {
         localStorage.setItem('0xrex_logged_in', 'true');
         window.location.href = 'portal.html';
       })
-      .catch((err) => showMsg(mapError(err.code), 'error'));
+      .catch((err) => {
+        showMsg(mapError(err.code), 'error');
+        signupBtn.disabled = false;
+        signupBtn.textContent = 'CREATE ACCOUNT';
+      });
   });
 
   // Forgot password

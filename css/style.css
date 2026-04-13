@@ -6,6 +6,7 @@
 
 /* -- Reset & Base -- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.hidden { display: none !important; }
 
 :root {
   --bg-primary: #0c0a08;
@@ -274,6 +275,9 @@ section { padding: 6rem 0; }
 .btn-secondary:hover { border-color: var(--accent); color: var(--accent); background: rgba(245, 158, 11, 0.05); transform: translateY(-2px); }
 
 .btn-sm { padding: 0.5rem 1.25rem; font-size: 0.7rem; }
+
+.btn-outline { background: transparent; color: var(--text-muted); border-color: var(--border); }
+.btn-outline:hover { border-color: var(--text-muted); color: var(--text-secondary); }
 
 /* -- Download Button (fancy animated) -- */
 .btn-download {
