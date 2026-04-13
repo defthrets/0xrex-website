@@ -7,7 +7,8 @@ import {
 import {
   doc,
   getDoc,
-  setDoc
+  setDoc,
+  collection
 } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 
 var _currentUser = null;
@@ -28,23 +29,101 @@ onAuthStateChanged(auth, (user) => {
   initPortal(user);
 });
 
-function generateLicenseKey(uid) {
-  // Generate 3 separate hashes for full 12 hex chars of entropy
-  function fnv32(str, seed) {
-    var h = seed || 0x811c9dc5;
-    for (var i = 0; i < str.length; i++) {
-      h ^= str.charCodeAt(i);
-      h = Math.imul(h, 0x01000193);
-    }
-    return (h >>> 0);
+// ── FNV-32 helper (used for checksum) ──
+function fnv32(str, seed) {
+  var h = seed || 0x811c9dc5;
+  for (var i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
   }
-  var h1 = fnv32(uid, 0x811c9dc5);
-  var h2 = fnv32(uid, 0x62b821e3);
-  var h3 = fnv32(uid, 0xde4a9f10);
-  var seg1 = (h1 >>> 0).toString(16).toUpperCase().padStart(8, '0').slice(0, 4);
-  var seg2 = (h2 >>> 0).toString(16).toUpperCase().padStart(8, '0').slice(0, 4);
-  var seg3 = (h3 >>> 0).toString(16).toUpperCase().padStart(8, '0').slice(0, 4);
-  return '0XREX-PRO-' + seg1 + '-' + seg2 + '-' + seg3;
+  return (h >>> 0);
+}
+
+// ── Crypto-random unique key generation ──
+// Format: 0XREX-PRO-XXXX-XXXX-XXXX-CHCK
+// XXXX = random hex, CHCK = FNV-32 checksum of random segments
+function generateUniqueKey() {
+  var bytes = new Uint8Array(6);
+  crypto.getRandomValues(bytes);
+  var seg1 = ('0' + bytes[0].toString(16)).slice(-2) + ('0' + bytes[1].toString(16)).slice(-2);
+  var seg2 = ('0' + bytes[2].toString(16)).slice(-2) + ('0' + bytes[3].toString(16)).slice(-2);
+  var seg3 = ('0' + bytes[4].toString(16)).slice(-2) + ('0' + bytes[5].toString(16)).slice(-2);
+  // Checksum: FNV-32 of the 3 segments, lower 16 bits
+  var raw = seg1 + seg2 + seg3;
+  var check = fnv32(raw, 0x811c9dc5);
+  var seg4 = (check & 0xFFFF).toString(16).padStart(4, '0');
+  return ('0XREX-PRO-' + seg1 + '-' + seg2 + '-' + seg3 + '-' + seg4).toUpperCase();
+}
+
+// ── AES-GCM Encryption for license records ──
+var _VAULT_PASSPHRASE = '0xrex-license-vault-2026-aes256';
+
+async function _deriveEncryptionKey() {
+  var enc = new TextEncoder();
+  var keyMaterial = await crypto.subtle.importKey(
+    'raw', enc.encode(_VAULT_PASSPHRASE), 'PBKDF2', false, ['deriveKey']
+  );
+  return crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt: enc.encode('0xrex-vault-salt'), iterations: 100000, hash: 'SHA-256' },
+    keyMaterial,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['encrypt', 'decrypt']
+  );
+}
+
+async function encryptRecord(data) {
+  var key = await _deriveEncryptionKey();
+  var enc = new TextEncoder();
+  var iv = crypto.getRandomValues(new Uint8Array(12));
+  var ciphertext = await crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv: iv },
+    key,
+    enc.encode(JSON.stringify(data))
+  );
+  return {
+    iv: btoa(String.fromCharCode.apply(null, iv)),
+    ct: btoa(String.fromCharCode.apply(null, new Uint8Array(ciphertext)))
+  };
+}
+
+async function decryptRecord(encrypted) {
+  var key = await _deriveEncryptionKey();
+  var iv = Uint8Array.from(atob(encrypted.iv), function(c) { return c.charCodeAt(0); });
+  var ct = Uint8Array.from(atob(encrypted.ct), function(c) { return c.charCodeAt(0); });
+  var plaintext = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv: iv },
+    key,
+    ct
+  );
+  return JSON.parse(new TextDecoder().decode(plaintext));
+}
+
+// ── SHA-256 hash for key indexing ──
+async function hashLicenseKey(licenseKey) {
+  var enc = new TextEncoder();
+  var hashBuf = await crypto.subtle.digest('SHA-256', enc.encode(licenseKey));
+  return Array.from(new Uint8Array(hashBuf)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+}
+
+// ── Store encrypted license record in Firestore ──
+async function storeLicenseRecord(licenseKey, uid, email, paymentMethod, paymentRef) {
+  var record = {
+    uid: uid,
+    email: email,
+    key: licenseKey,
+    paymentMethod: paymentMethod,
+    paymentRef: paymentRef || null,
+    issuedAt: new Date().toISOString()
+  };
+  var encrypted = await encryptRecord(record);
+  var keyHash = await hashLicenseKey(licenseKey);
+  // Store in licenses collection, indexed by key hash (key never stored in plaintext)
+  await setDoc(doc(db, 'licenses', keyHash), {
+    encrypted: encrypted,
+    createdAt: new Date().toISOString()
+  });
+  return keyHash;
 }
 
 async function loadUserData(uid) {
@@ -82,7 +161,7 @@ async function initPortal(user) {
 
   _userData = await loadUserData(uid);
   var isPro = _userData.tier === 'pro';
-  var licenseKey = isPro ? (_userData.licenseKey || generateLicenseKey(uid)) : null;
+  var licenseKey = isPro ? (_userData.licenseKey || null) : null;
 
   // Populate account info
   document.getElementById('portalEmail').textContent = email;
@@ -212,14 +291,21 @@ window.switchPayTab = function(method, btn) {
 async function activatePro(paymentMethod, txRef) {
   if (!_currentUser) return;
   var uid = _currentUser.uid;
-  var licenseKey = generateLicenseKey(uid);
+  var licenseKey = generateUniqueKey();
 
   // Show processing step
   document.getElementById('purchaseStep1').classList.add('hidden');
   document.getElementById('purchaseStep2').classList.remove('hidden');
   document.getElementById('purchaseStep3').classList.add('hidden');
 
-  // Save to Firestore + localStorage
+  // Store encrypted license record in Firestore licenses collection
+  try {
+    await storeLicenseRecord(licenseKey, uid, _currentUser.email || '', paymentMethod, txRef);
+  } catch (e) {
+    console.warn('Failed to store license record:', e);
+  }
+
+  // Save to user profile (Firestore + localStorage)
   await saveUserData(uid, {
     tier: 'pro',
     licenseKey: licenseKey,
