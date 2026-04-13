@@ -176,10 +176,10 @@ function updateTierUI(isPro, licenseKey) {
 }
 
 // ── Payment Configuration ──────────────────────────────────
-// Replace these with your real keys/URLs:
-var STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/YOUR_PAYMENT_LINK_HERE';
-var PAYPAL_CLIENT_ID    = 'YOUR_PAYPAL_CLIENT_ID_HERE';
-var PAYPAL_ME_LINK      = 'https://paypal.me/YOUR_PAYPAL_ME/29';
+// Replace these with your real URLs after creating accounts:
+var LEMONSQUEEZY_CHECKOUT_URL = 'YOUR_LEMONSQUEEZY_CHECKOUT_URL_HERE';
+var PAYPAL_ME_LINK            = 'https://paypal.me/YOUR_PAYPAL_ME/29';
+var COINBASE_COMMERCE_URL     = 'YOUR_COINBASE_COMMERCE_URL_HERE';
 
 // Purchase flow
 window.startPurchase = function() {
@@ -189,7 +189,7 @@ window.startPurchase = function() {
   document.getElementById('purchaseStep2').classList.add('hidden');
   document.getElementById('purchaseStep3').classList.add('hidden');
   // Reset to card tab
-  switchPayTab('stripe', document.querySelector('.pay-tab[data-method="stripe"]'));
+  switchPayTab('lemonsqueezy', document.querySelector('.pay-tab[data-method="lemonsqueezy"]'));
   modal.classList.remove('hidden');
 };
 
@@ -202,7 +202,7 @@ window.switchPayTab = function(method, btn) {
   document.querySelectorAll('.pay-panel').forEach(function(p) { p.classList.remove('active'); });
   if (btn) btn.classList.add('active');
   var panel = document.getElementById(
-    method === 'stripe' ? 'payStripe' :
+    method === 'lemonsqueezy' ? 'payLemonsqueezy' :
     method === 'paypal' ? 'payPaypal' : 'payCrypto'
   );
   if (panel) panel.classList.add('active');
@@ -242,21 +242,26 @@ async function activatePro(paymentMethod, txRef) {
   updateTierUI(true, licenseKey);
 }
 
-// ── Stripe ──
-window.payWithStripe = function() {
-  // If Stripe Payment Link is configured, redirect to it
-  if (STRIPE_PAYMENT_LINK && !STRIPE_PAYMENT_LINK.includes('YOUR_')) {
-    // Append client_reference_id so we can match the payment to the user
-    var url = STRIPE_PAYMENT_LINK + '?client_reference_id=' + encodeURIComponent(_currentUser.uid);
-    window.open(url, '_blank');
-    // Show a "complete" button after redirect
-    var btn = document.getElementById('stripePayBtn');
+// ── LemonSqueezy ──
+window.payWithLemonSqueezy = function() {
+  if (LEMONSQUEEZY_CHECKOUT_URL && !LEMONSQUEEZY_CHECKOUT_URL.includes('YOUR_')) {
+    // Append checkout data so we can match the purchase to the user
+    var url = LEMONSQUEEZY_CHECKOUT_URL + '?checkout[custom][user_uid]=' + encodeURIComponent(_currentUser.uid)
+      + '&checkout[custom][email]=' + encodeURIComponent(_currentUser.email || '');
+    // Use LemonSqueezy overlay if SDK loaded, otherwise open in new tab
+    if (window.LemonSqueezy) {
+      window.LemonSqueezy.Url.Open(url);
+    } else {
+      window.open(url, '_blank');
+    }
+    // Switch button to confirm after payment
+    var btn = document.getElementById('lemonPayBtn');
     btn.textContent = 'I\'ve completed payment';
-    btn.onclick = function() { activatePro('stripe', 'stripe-redirect'); };
+    btn.onclick = function() { activatePro('lemonsqueezy', 'ls-checkout'); };
     return;
   }
-  // Fallback: activate directly (for testing / before Stripe is set up)
-  activatePro('stripe', 'test-' + Date.now());
+  // Fallback: activate directly (for testing before LemonSqueezy is set up)
+  activatePro('lemonsqueezy', 'test-' + Date.now());
 };
 
 // ── PayPal ──
@@ -272,26 +277,20 @@ window.payWithPaypal = function() {
   activatePro('paypal', 'test-' + Date.now());
 };
 
-// ── Crypto ──
+// ── Crypto (Coinbase Commerce) ──
 window.payWithCrypto = function() {
-  var txId = (document.getElementById('cryptoTxId')?.value || '').trim();
-  if (!txId) {
-    alert('Please paste your transaction hash/ID so we can verify your payment.');
+  if (COINBASE_COMMERCE_URL && !COINBASE_COMMERCE_URL.includes('YOUR_')) {
+    // Coinbase Commerce hosted checkout supports BTC, ETH, USDT, etc. in one page
+    var url = COINBASE_COMMERCE_URL;
+    window.open(url, '_blank');
+    // Switch button to confirm
+    var btn = document.getElementById('cryptoPayBtn');
+    btn.textContent = 'I\'ve completed payment';
+    btn.onclick = function() { activatePro('crypto', 'coinbase-commerce'); };
     return;
   }
-  activatePro('crypto', txId);
-};
-
-window.copyCryptoAddr = function(id) {
-  var el = document.getElementById(id);
-  if (!el) return;
-  navigator.clipboard.writeText(el.textContent).then(function() {
-    var btn = el.parentElement.querySelector('.portal-copy-btn');
-    if (btn) {
-      btn.textContent = 'COPIED';
-      setTimeout(function() { btn.textContent = 'COPY'; }, 2000);
-    }
-  });
+  // Fallback: activate directly
+  activatePro('crypto', 'test-' + Date.now());
 };
 
 window.copyPurchaseKey = function() {
