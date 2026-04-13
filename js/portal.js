@@ -13,11 +13,11 @@ import {
 var _currentUser = null;
 var _userData = null;
 
-// Auth guard
+// Auth guard — redirect to 404 if not logged in
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     localStorage.removeItem('0xrex_logged_in');
-    window.location.href = 'login.html';
+    window.location.replace('404.html');
     return;
   }
   document.body.classList.add('auth-ready');
