@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>0xrex -- 404</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9670;</text></svg>">
+  <style>
+    body { overflow: hidden; }
+    .four04-wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+    }
+    .four04-rex {
+      width: 200px;
+      height: auto;
+      filter: drop-shadow(0 4px 30px rgba(245,158,11,0.2));
+      animation: rexSad 3s ease-in-out infinite;
+      margin-bottom: 1.5rem;
+    }
+    @keyframes rexSad {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25%      { transform: translateY(-6px) rotate(-1deg); }
+      50%      { transform: translateY(-10px) rotate(1deg); }
+      75%      { transform: translateY(-4px) rotate(-0.5deg); }
+    }
+    .four04-code {
+      font-family: 'Orbitron', monospace;
+      font-size: 6rem;
+      font-weight: 900;
+      letter-spacing: 8px;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 40px rgba(245,158,11,0.3);
+    }
+    .four04-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+    .four04-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 400px;
+      margin-bottom: 2rem;
+    }
+    .four04-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.7rem 2rem;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #111;
+      background: linear-gradient(135deg, var(--accent), #fbbf24);
+      border: none;
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 16px rgba(245,158,11,0.3);
+    }
+    .four04-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(245,158,11,0.5);
+    }
+    .four04-btn + .four04-btn {
+      margin-left: 0.75rem;
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      box-shadow: none;
+    }
+    .four04-btn + .four04-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 12px rgba(245,158,11,0.1);
+    }
+    .four04-terminal {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 3rem;
+      opacity: 0.4;
+      letter-spacing: 1px;
+    }
+    .four04-terminal span { color: var(--accent); }
+    /* Scanline effect */
+    .four04-wrap::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(245,158,11,0.015) 2px,
+        rgba(245,158,11,0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="four04-wrap">
+    <img src="assets/rex/rex-broke.png" alt="Sad Rex" class="four04-rex">
+    <div class="four04-code">404</div>
+    <h1 class="four04-title">PAGE NOT FOUND</h1>
+    <p class="four04-text">
+      Rex looked everywhere but couldn't find this page.
+      <br>Might've been eaten by a drop bear.
+      <br>Or maybe you just need to log in first, yeah?
+    </p>
+    <div>
+      <a href="index.html" class="four04-btn">HOME</a>
+      <a href="login.html" class="four04-btn">LOG IN</a>
+    </div>
+    <div class="four04-terminal">
+      <span>></span> ERROR: route not found <span>|</span> status: 404 <span>|</span> rex: confused
+    </div>
+  </div>
+</body>
+</html>
