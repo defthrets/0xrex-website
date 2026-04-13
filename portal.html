@@ -107,7 +107,7 @@
           <div class="portal-plan-card portal-plan--pro" id="planCardPro">
             <div class="demo-badge demo-badge--green" id="proBadge">PRO</div>
             <h3>Pro</h3>
-            <div class="portal-plan-price">$29<span>/mo</span></div>
+            <div class="portal-plan-price">$29<span> once</span></div>
             <ul class="portal-plan-features">
               <li>Live trading mode</li>
               <li>Unlimited assets</li>
@@ -299,14 +299,14 @@
         <h2 class="purchase-title">Upgrade to PRO</h2>
         <div class="purchase-summary">
           <div class="purchase-row"><span>Plan</span><span>0xrex PRO</span></div>
-          <div class="purchase-row"><span>Price</span><span>$29.00 / month</span></div>
-          <div class="purchase-row purchase-row--total"><span>Total today</span><span>$29.00 AUD</span></div>
+          <div class="purchase-row"><span>Price</span><span>$29.00 (one-time)</span></div>
+          <div class="purchase-row purchase-row--total"><span>Total</span><span>$29.00 AUD</span></div>
         </div>
 
         <p class="purchase-method-label">Select payment method</p>
         <div class="pay-tabs">
-          <button class="pay-tab active" data-method="stripe" onclick="switchPayTab('stripe',this)">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.591-7.305z"/></svg>
+          <button class="pay-tab active" data-method="lemonsqueezy" onclick="switchPayTab('lemonsqueezy',this)">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M2 4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4zm4 2v2h12V6H6zm0 4v2h8v-2H6zm0 4v2h10v-2H6z"/></svg>
             Card
           </button>
           <button class="pay-tab" data-method="paypal" onclick="switchPayTab('paypal',this)">
@@ -319,59 +319,41 @@
           </button>
         </div>
 
-        <!-- Stripe / Card -->
-        <div class="pay-panel active" id="payStripe">
-          <p class="pay-desc">Secure card payment via Stripe. You'll be redirected to complete checkout.</p>
-          <button class="btn btn-primary purchase-btn" id="stripePayBtn" onclick="payWithStripe()">
+        <!-- LemonSqueezy / Card -->
+        <div class="pay-panel active" id="payLemonsqueezy">
+          <p class="pay-desc">Secure card payment via LemonSqueezy. Checkout opens as an overlay -- no redirect needed.</p>
+          <button class="btn btn-primary purchase-btn lemonsqueezy-btn" id="lemonPayBtn" onclick="payWithLemonSqueezy()">
             Pay $29.00 with Card
           </button>
-          <p class="pay-secure">&#9679; Secured by Stripe. 256-bit encryption.</p>
+          <p class="pay-secure">&#9679; Secured by LemonSqueezy. Tax handled automatically.</p>
         </div>
 
         <!-- PayPal -->
         <div class="pay-panel" id="payPaypal">
           <p class="pay-desc">Pay securely with your PayPal account or debit/credit card through PayPal.</p>
-          <div id="paypalButtonContainer"></div>
           <button class="btn btn-primary purchase-btn paypal-fallback-btn" id="paypalFallbackBtn" onclick="payWithPaypal()">
             Pay $29.00 with PayPal
           </button>
           <p class="pay-secure">&#9679; Protected by PayPal Buyer Protection.</p>
         </div>
 
-        <!-- Crypto -->
+        <!-- Crypto via Coinbase Commerce -->
         <div class="pay-panel" id="payCrypto">
-          <p class="pay-desc">Send the equivalent of $29 AUD in crypto to one of the addresses below, then click confirm.</p>
-          <div class="crypto-options">
-            <div class="crypto-option">
-              <span class="crypto-label">BTC (Bitcoin)</span>
-              <div class="crypto-addr-row">
-                <code class="crypto-addr" id="cryptoBtcAddr">bc1q_YOUR_BTC_ADDRESS_HERE</code>
-                <button class="portal-copy-btn" onclick="copyCryptoAddr('cryptoBtcAddr')">COPY</button>
-              </div>
-            </div>
-            <div class="crypto-option">
-              <span class="crypto-label">ETH (Ethereum)</span>
-              <div class="crypto-addr-row">
-                <code class="crypto-addr" id="cryptoEthAddr">0x_YOUR_ETH_ADDRESS_HERE</code>
-                <button class="portal-copy-btn" onclick="copyCryptoAddr('cryptoEthAddr')">COPY</button>
-              </div>
-            </div>
-            <div class="crypto-option">
-              <span class="crypto-label">USDT (TRC-20)</span>
-              <div class="crypto-addr-row">
-                <code class="crypto-addr" id="cryptoUsdtAddr">T_YOUR_USDT_TRC20_ADDRESS</code>
-                <button class="portal-copy-btn" onclick="copyCryptoAddr('cryptoUsdtAddr')">COPY</button>
-              </div>
-            </div>
+          <p class="pay-desc">Pay with BTC, ETH, USDT, or 10+ other cryptocurrencies via Coinbase Commerce.</p>
+          <div class="crypto-supported">
+            <span class="crypto-coin">BTC</span>
+            <span class="crypto-coin">ETH</span>
+            <span class="crypto-coin">USDT</span>
+            <span class="crypto-coin">USDC</span>
+            <span class="crypto-coin">SOL</span>
+            <span class="crypto-coin">DOGE</span>
+            <span class="crypto-coin">LTC</span>
+            <span class="crypto-coin-more">+more</span>
           </div>
-          <div class="crypto-txid-row">
-            <label class="crypto-txid-label">Transaction ID (paste after sending)</label>
-            <input type="text" class="portal-input" id="cryptoTxId" placeholder="Paste your TX hash here">
-          </div>
-          <button class="btn btn-primary purchase-btn" id="cryptoConfirmBtn" onclick="payWithCrypto()">
-            I've Sent Payment -- Activate PRO
+          <button class="btn btn-primary purchase-btn crypto-btn" id="cryptoPayBtn" onclick="payWithCrypto()">
+            Pay $29.00 with Crypto
           </button>
-          <p class="pay-secure">&#9679; Crypto payments are manually verified within 24h. Key issued instantly on confirmation.</p>
+          <p class="pay-secure">&#9679; Powered by Coinbase Commerce. All major coins accepted.</p>
         </div>
       </div>
 
@@ -398,6 +380,9 @@
       </div>
     </div>
   </div>
+
+  <!-- LemonSqueezy overlay checkout SDK -->
+  <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
 
   <script type="module" src="js/portal.js"></script>
   <script src="js/main.js"></script>
