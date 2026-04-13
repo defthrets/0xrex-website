@@ -22,6 +22,9 @@ onAuthStateChanged(auth, (user) => {
   }
   document.body.classList.add('auth-ready');
   _currentUser = user;
+  // Update nav link to show Portal when logged in
+  var navLink = document.getElementById('navPortalLink');
+  if (navLink) { navLink.textContent = 'Portal'; navLink.href = 'portal.html'; }
   initPortal(user);
 });
 
