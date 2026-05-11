@@ -5,7 +5,7 @@ import { getAuth } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-auth
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBNeE4bFm1POKhKNKP0a8z6xdq_HEjw9E0",
+  apiKey: "YOUR_FIREBASE_API_KEY",
   authDomain: "xrex-50edf.firebaseapp.com",
   projectId: "xrex-50edf",
   storageBucket: "xrex-50edf.firebasestorage.app",
